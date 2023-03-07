@@ -152,7 +152,7 @@ export default {
 
 .bg{
   background-image: url("../assets/loginBackground.png");
-
+  background-size:100% 100%;
   background-repeat: no-repeat;
   position: absolute;
   padding: 0px;
@@ -160,7 +160,6 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
-
 }
 
 
