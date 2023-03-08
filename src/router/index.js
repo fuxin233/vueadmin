@@ -2,13 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import User from '../views/sys/User'
-import Admin from '../views/sys/Admin'
-import Register from '../views/Register'
-import  Index from '../views/index'
+import Admin from '../views/sys/Article'
+import Index from '../views/index'
 import GPU from '../views/sys/GPU'
 import CPU from '../views/sys/CPU'
 import Power from '../views/sys/Power'
 import Memory from '../views/sys/Memory'
+import Comment from '../views/sys/Comment'
+
+
 
 Vue.use(VueRouter)
 
@@ -40,11 +42,19 @@ const routes = [
         }
       },
       {
-        path: '/Admin',
-        name: 'Admin',
+        path: '/Article',
+        name: 'Article',
         component: Admin,
         meta:{
-          title: "管理员管理"
+          title: "文章管理"
+        }
+      },
+      {
+        path: '/Comment',
+        name: 'Comment',
+        component: Comment,
+        meta:{
+          title: "评论管理"
         }
       },
       {
@@ -88,11 +98,6 @@ const routes = [
     name: 'Login',
 
     component: () => import( '../views/Login')
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
   },
   {
     path:'/',

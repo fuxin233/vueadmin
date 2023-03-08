@@ -32,21 +32,23 @@
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        highlight-current-row= "true"
         style="width: 100%"
         border
         stripe
+        :highlight-current-row = "true"
         @selection-change="handleSelectionChange">
 
       <el-table-column
           type="selection"
-          width="55">
+          width="55"
+          align="center">
       </el-table-column>
 
 
       <el-table-column
           label="头像"
-          width="70">
+          width="70"
+          align="center">
         <template slot-scope="scope">
           <el-avatar size="medium" :src="scope.row.avatar"></el-avatar>
         </template>
@@ -55,25 +57,29 @@
       <el-table-column
           prop="name"
           label="用户名"
-          width="120">
+          width="120"
+          align="center">
       </el-table-column>
 
       <el-table-column
           prop="sex"
           label="性别"
-          width="120">
+          width="120"
+          align="center">
       </el-table-column>
 
       <el-table-column
           prop="email"
           label="邮箱"
-          width="200">
+          width="200"
+          align="center">
       </el-table-column>
 
       <el-table-column
           prop="created"
           label="创建日期"
-          width="250">
+          width="250"
+          align="center">
         <template slot-scope="scope">
         <el-date-picker
             v-model= "scope.row.created"
@@ -86,7 +92,8 @@
       <el-table-column
           prop="lastLogin"
           label="最后登录"
-          width="250">
+          width="250"
+          align="center">
         <template slot-scope="scope">
           <el-date-picker
               v-model= "scope.row.lastLogin"
@@ -99,6 +106,7 @@
       <el-table-column
           prop="locked"
           label="账号状态"
+          align="center"
           width="78">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.locked === 1" size="small" type="success">正常</el-tag>
@@ -108,12 +116,11 @@
 
       <el-table-column
           prop="roles"
-          label="角色权限">
+          label="角色权限"
+          align="center">
         <template slot-scope="scope">
           <div v-for="item in scope.row.roles" style="display: inline-block;margin-right : 10px ">
-            <el-tag v-if="item.role === 'ROLE_admin'" size="small" type="success">全局管理员</el-tag>
-            <el-tag v-if="item.role === 'ROLE_user_normal'" size="small" type="success">普通用户</el-tag>
-            <el-tag v-if="item.role === 'ROLE_user_vip'" size="small" type="success">vip用户</el-tag>
+            <el-tag size="small" type="success">{{item.remark}}</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -123,7 +130,8 @@
       <el-table-column
           prop="icon"
           width="260px"
-          label="操作">
+          label="操作"
+          align="center">
 
         <template slot-scope="scope">
 
@@ -210,8 +218,13 @@
         </el-form-item>
 
         <el-form-item label="性别" prop="sex" label-width="100px">
-          <el-radio v-model="editForm.sex" label="男">男</el-radio>
-          <el-radio v-model="editForm.sex" label="女">女</el-radio>
+          <el-radio v-model="editForm.sex" :label="'男'">男</el-radio>
+          <el-radio v-model="editForm.sex" :label="'女'">女</el-radio>
+        </el-form-item>
+
+        <el-form-item label="账号状态" prop="locked" label-width="100px">
+          <el-radio v-model="editForm.locked" :label="1">正常</el-radio>
+          <el-radio v-model="editForm.locked" :label="0">封禁</el-radio>
         </el-form-item>
 
 
@@ -219,17 +232,19 @@
           <el-input placeholder="请输入邮箱" v-model="editForm.email" autocomplete="off"  label-width="50px"></el-input>
         </el-form-item>
 
-        <el-form-item label="角色"  prop="roleIds" label-width="100px">
+        <el-form-item label="角色"  label-width="100px">
 <!--          <el-checkbox-group v-model="editForm.roleIds">-->
 <!--            <el-checkbox label="1">管理员</el-checkbox>-->
 <!--            <el-checkbox label="2">普通用户</el-checkbox>-->
 <!--            <el-checkbox label="3">vip用户</el-checkbox>-->
 <!--          </el-checkbox-group>-->
-          <el-checkbox-group
-              v-model="editForm.roleIds">
-          <el-checkbox v-for="item in roleList" :label="item.id">{{item.remark}}</el-checkbox>
+          <el-checkbox-group v-model="editForm.roleIds">
+          <el-checkbox v-for="item in this.roleList" :label="item.id">{{item.remark}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+
+
+
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -251,7 +266,7 @@ export default {
       delBtlStatu: true,
       code:'',
       key:'',
-      roleList:{},
+      roleList:[],
 
       //获取验证码倒计时
       buttonName:'获取邮箱验证码',
@@ -300,7 +315,6 @@ export default {
         label: 'name'
       },
       roleForm: {},
-      roleTreeData:  [],
       treeCheckedKeys: [],
       checkStrictly: true
 
@@ -334,9 +348,6 @@ export default {
   created() {
     this.getUserList()
     this.getRoleList()
-    this.$axios.get("/user/list").then(res => {
-      this.roleTreeData = res.data.data.records.roles
-    })
   },
   methods: {
     getRoleList(){
@@ -344,9 +355,6 @@ export default {
         this.roleList = res.data.data.records;
       })
     },
-
-
-
     sendEmail(userEmail){
         console.log(userEmail),
             this.$axios.get('/user/sendMail/'+userEmail).then(res=>{
@@ -382,6 +390,7 @@ export default {
       console.log(val)
       this.multipleSelection = val;
       this.delBtlStatu = val.length == 0
+
     },
 
     handleSizeChange(val) {
@@ -400,6 +409,7 @@ export default {
       this.dialogVisible = false
       this.updateVisible=false
       this.editForm = {}
+      this.editForm.roleIds=[]
       this.disable = false;
       this.buttonName = "获取邮箱验证码";
       this.code ="";
@@ -407,10 +417,11 @@ export default {
 
     },
     handleClose() {
+      console.log(this.editForm.roleIds)
       this.resetForm('editForm')
     },
 
-    getUserList() {
+    getUserList () {
       this.$axios.get("/user/list", {
         params: {
           username: this.searchForm.username,
@@ -478,6 +489,7 @@ export default {
       this.$axios.get('/user/getById/' + id).then(res => {
         this.editForm = res.data.data
         this.updateVisible = true
+        this.getRoleList()
       })
     },
     delHandle(id) {

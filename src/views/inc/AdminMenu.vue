@@ -22,7 +22,7 @@
       </template>
       <router-link to="/User">
 
-        <el-menu-item index="SysUser" @click="selectMenu({name:'User',title:'用户管理'})">
+        <el-menu-item index="User" @click="selectMenu({name:'User',title:'用户管理'})">
           <template slot="title">
             <i class="el-icon-user-solid"></i>
             <span slot="title">用户管理</span>
@@ -30,14 +30,27 @@
         </el-menu-item>
       </router-link>
 
-      <router-link to="/sys/Admin">
-        <el-menu-item index="SysAdmin" @click="selectMenu({name:'SysAdmin',title:'管理员管理'})">
+      <router-link to="/Article">
+        <el-menu-item index="Article" @click="selectMenu({name:'Article',title:'文章管理'})">
           <template slot="title">
-            <i class="el-icon-user-solid"></i>
-            <span slot="title">管理员管理</span>
+            <i class="el-icon-s-management"></i>
+            <span slot="title">文章管理</span>
           </template>
         </el-menu-item>
       </router-link>
+
+      <router-link to="/Comment">
+        <el-menu-item index="Comment" @click="selectMenu({name:'Comment',title:'评论管理'})">
+          <template slot="title">
+            <i class="el-icon-s-comment"></i>
+            <span slot="title">评论管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+
+
+
     </el-submenu>
 
     <el-submenu index="硬件管理">
