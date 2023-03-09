@@ -182,6 +182,7 @@
 
 <script>
 import editor from "../inc/Editor"
+
 export default {
   name: "Article",
   title:"文章管理",
