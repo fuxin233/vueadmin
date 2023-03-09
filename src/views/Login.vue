@@ -20,45 +20,40 @@
         class="lizi"
     >   </vue-particles>
 
-    <div class="lable" >
-      管理员登录
-    </div>
     <div id="login-container">
-
       <el-form :model="loginForm" :rules="rules" ref="loginForm" >
-        <el-form-item prop="username" style="width: 100%" >
-          <div class="form__group field">
-            <input id="username" required="" placeholder="请输入用户名" class="form__field" type="input" v-model="loginForm.username">
-            <label class="form__label" for="username">用户名</label>
+
+        <div class="card">
+          <div class="card2">
+            <div class="form">
+              <p id="heading">管理员登录</p>
+              <el-form-item  prop="username">
+                <div class="field">
+                  <i class="el-icon-user-solid"></i>
+                  <input type="text" class="input-field" placeholder="请输入用户名" autocomplete="off" v-model="loginForm.username">
+                </div>
+              </el-form-item>
+              <el-form-item prop="password">
+                <div class="field">
+                  <i class="el-icon-lock"></i>
+                  <input type="password" class="input-field" placeholder="请输入密码" v-model="loginForm.password">
+                </div>
+              </el-form-item>
+
+              <el-form-item  prop="code">
+                <div class="field" style="width: 50%" id="code">
+                  <i class="el-icon-key"></i>
+                  <input type="text" class="input-field" placeholder="请输入验证码" v-model="loginForm.code">
+                </div>
+                <el-image class="captchaImg" :src="captchaImg" @click="getCaptcha" id="key"></el-image>
+              </el-form-item>
+              <div class="btn">
+                <el-button type="primary" @click="submitForm('loginForm')" class="button1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                <el-button @click="resetForm('loginForm')" class="button2">重置</el-button>
+              </div>
+            </div>
           </div>
-<!--          <el-input placeholder="请输入用户名" v-model="loginForm.username" clearable></el-input>-->
-
-        </el-form-item>
-        <el-form-item  prop="password" style="width: 100%">
-          <div class="form__group field">
-            <input id="password" required="" placeholder="请输入密码" class="form__field" type="input" v-model="loginForm.password">
-            <label class="form__label" for="password">密码</label>
-          </div>
-<!--          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password clearable></el-input>-->
-        </el-form-item>
-
-        <el-form-item label="" prop="code" style="width: 100% ">
-
-          <div class="form__group field">
-            <input id="code" required="" placeholder="请输入验证码" class="form__field" type="input" v-model="loginForm.code">
-            <label class="form__label" for="code">验证码</label>
-          </div>
-          <el-image class="captchaImg" :src="captchaImg" @click="getCaptcha" style="float: right"></el-image>
-<!--          <el-input placeholder="请输入验证码"v-model="loginForm.code" style="width: 172px;float: left" maxlength="5" clearable></el-input>-->
-
-        </el-form-item>
-
-
-        <el-form-item style="width: 350px ">
-          <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
-          <el-button @click="resetForm('loginForm')">重置</el-button>
-
-        </el-form-item>
+        </div>
       </el-form>
 
     </div>
@@ -68,7 +63,6 @@
 <script>
 import * as THREE from 'three'
 import Net from 'vanta/src/vanta.net'
-
 export default {
   name: "Login",
   data() {
@@ -97,20 +91,14 @@ export default {
   methods: {
     submitForm(formName) {
       this.getCaptcha();
-
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.getCaptcha();
           this.$axios.post('/login?',this.loginForm).then(res=>{
-
             const  jwt = res.headers['authorization']
-
             this.$store.commit('SET_TOKEN',jwt)
-
             this.$router.push("/index")
-
           })
-
         } else {
           this.getCaptcha();
           console.log('error submit!!');
@@ -122,9 +110,6 @@ export default {
       this.$refs[formName].resetFields();
       this.getCaptcha();
     },
-
-
-
     //获取验证码
     getCaptcha(){
       this.$axios.get('/captcha').then(res=>{
@@ -162,7 +147,6 @@ export default {
       this.vantaEffect.destroy()
     }
   },
-
 }
 </script>
 
@@ -189,100 +173,135 @@ export default {
 
 
 .captchaImg{
-  float:left;
+  float:right;
   margin-left:8px;
   border-radius: 4px;
+  width: 140px;
+  height: 34px
 }
 
-.lable{
-  position: absolute;
-  top: 17%;
-  left: 46.5%;
-  text-align: center;
-  font-size: xx-large;
-  font-family: bold;
-  color: white;
-}
-.setcolor
-{
-  color: black;
-}
 #login-container{
-
   width: 400px;
-  height: 320px;
-  background:rgba(112,146,190,1);
+  height: 370px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin-left: -220px;
   margin-top: -170px;
-  border-radius: 5px;
-  padding-top: 40px;
-  padding-right: 40px;
+  border-radius: 10px;
+
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 0.4em;
+  background-color: #171717;
+  border-radius: 20px;
+  height: 400px;
   z-index: 1;
 }
-.form__group {
-  position: relative;
-  padding: 20px 0 0;
-  margin-top: 10px;
-  width: 100%;
-  max-width: 180px;
+
+#heading {
+  text-align: center;
+  margin: 2em;
+  color: rgb(0, 255, 200);
+  font-size: 1.2em;
 }
 
-.form__field {
-  font-family: inherit;
-  width: 100%;
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 25px;
+  padding: 0.6em;
   border: none;
-  border-bottom: 2px solid #9b9b9b;
-  outline: 0;
-  font-size: 17px;
-  color: #fff;
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
+  outline: none;
+  color: white;
+  background-color: #171717;
+  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
 }
 
-.form__field::placeholder {
-  color: transparent;
+.input-icon {
+  height: 1.3em;
+  width: 1.3em;
+  fill: rgb(0, 255, 200);
 }
 
-.form__field:placeholder-shown ~ .form__label {
-  font-size: 17px;
-  cursor: text;
-  top: 20px;
+.input-field {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: rgb(0, 255, 200);
 }
 
-.form__label {
+.form .btn {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+
+}
+
+.button1 {
+  margin-top: 0px;
+  border-radius: 5px;
+  margin-right: 0.5em;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  color: rgb(0, 0, 0);
+}
+
+.button1:hover {
+  background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
+  color: rgb(0, 255, 200);
+}
+
+.button2 {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  color: rgb(0, 0, 0);
+}
+
+.button2:hover {
+  background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
+  color: rgb(0, 255, 200);
+}
+
+.card {
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  border-radius: 22px;
+  transition: all .3s;
+}
+
+.card2 {
+  border-radius: 0;
+  transition: all .2s;
+}
+
+.card2:hover {
+  transform: scale(0.98);
+  border-radius: 20px;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+}
+
+#code{
   position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 17px;
-  color: #9b9b9b;
-  pointer-events: none;
-}
 
-.form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, #116399, #38caef);
-  border-image-slice: 1;
 }
-
-.form__field:focus ~ .form__label {
+#key{
   position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 17px;
-  color: #38caef;
-  font-weight: 700;
-}
 
-/* reset input */
-.form__field:required, .form__field:invalid {
-  box-shadow: none;
 }
 </style>
