@@ -165,6 +165,7 @@
         title="添加管理员"
         :visible.sync="dialogVisible"
         width="600px"
+        :append-to-body="true"
         :before-close="handleClose">
 
 
@@ -209,7 +210,9 @@
         title="更改用户信息"
         :visible.sync="updateVisible"
         width="600px"
-        :before-close="handleClose">
+        :before-close="handleClose"
+        :append-to-body="true"
+    >
 
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">

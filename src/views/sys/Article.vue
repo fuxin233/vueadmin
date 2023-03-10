@@ -124,7 +124,8 @@
         :visible.sync="dialogVisible"
         width="80%"
         :fullscreen="true"
-        :before-close="handleClose">
+        :before-close="handleClose"
+        :append-to-body="true">
 
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
@@ -151,7 +152,8 @@
         :visible.sync="updateVisible"
         width="80%"
         :fullscreen="true"
-        :before-close="handleClose">
+        :before-close="handleClose"
+        :append-to-body="true">
 
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">

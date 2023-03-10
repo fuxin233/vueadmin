@@ -48,8 +48,8 @@
                 <el-image class="captchaImg" :src="captchaImg" @click="getCaptcha" id="key"></el-image>
               </el-form-item>
               <div class="btn">
-                <el-button type="primary" @click="submitForm('loginForm')" class="button1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
-                <el-button @click="resetForm('loginForm')" class="button2">重置</el-button>
+                <el-button type="primary" @click="submitForm('loginForm')" class="button" :plain="true">&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                <el-button @click="resetForm('loginForm')" class="button" :plain="true" type="info">重置</el-button>
               </div>
             </div>
           </div>
@@ -182,12 +182,11 @@ export default {
 
 #login-container{
   width: 400px;
-  height: 370px;
+  height: 400px;
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -220px;
-  margin-top: -170px;
+  transform: translate(-50%,-50%);
   border-radius: 10px;
 
 }
@@ -243,38 +242,48 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: row;
-
 }
 
-.button1 {
-  margin-top: 0px;
-  border-radius: 5px;
-  margin-right: 0.5em;
+.button {
+  padding: 1em 2em;
   border: none;
-  outline: none;
-  transition: .4s ease-in-out;
-  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
-  color: rgb(0, 0, 0);
-}
-
-.button1:hover {
-  background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
-  color: rgb(0, 255, 200);
-}
-
-.button2 {
   border-radius: 5px;
-  border: none;
-  outline: none;
-  transition: .4s ease-in-out;
-  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
-  color: rgb(0, 0, 0);
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #2c9caf;
+  transition: all 1000ms;
+  font-size: 15px;
+  position: relative;
+  overflow: hidden;
+  outline: 2px solid #2c9caf;
+  margin-right: 10px;
 }
 
-.button2:hover {
-  background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
-  color: rgb(0, 255, 200);
+button:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: 2px solid #70bdca;
+  box-shadow: 4px 5px 17px -4px #268391;
 }
+
+button::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #2c9caf;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+button:hover::before {
+  width: 250%;
+}
+
 
 .card {
   background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);

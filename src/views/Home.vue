@@ -1,13 +1,12 @@
 <template>
-
+  <div class="bg" ref="vantaRef">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
     </el-aside>
 
     <el-container>
-      <el-header style="background:-webkit-linear-gradient(left bottom, white,lightslategray)">
-        <strong>后台管理系统</strong>
+      <el-header >
 
         <div class="header-avatar" >
           <el-avatar size="medium" :src= this.userInfo.avatar></el-avatar>
@@ -30,7 +29,7 @@
         </div>
       </el-header>
 
-      <el-main  style="background:-webkit-linear-gradient(left top, white,lightslategray)">
+      <el-main>
         <Tabs></Tabs>
         <div style="margin: 0 15px; ">
           <router-view></router-view>
@@ -38,13 +37,17 @@
       </el-main>
     </el-container>
   </el-container>
+  </div>
+
+
 </template>
 
 <script>
 
 import AdminMenu from "../views/inc/AdminMenu";
 import Tabs from "../views/inc/Tabs";
-
+import Clouds from 'vanta/src/vanta.clouds'
+import * as THREE from "three";
 export default {
   name: "Home",
   components: {
@@ -81,7 +84,26 @@ export default {
       })
     }
   },
-
+  mounted() {
+    this.vantaEffect = Clouds({
+      el: this.$refs.vantaRef,
+      THREE: THREE
+    }), VANTA.CLOUDS({
+      el: this.$refs.vantaRef,
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      skyColor: 0x608098,
+      speed: 2.00
+    })
+  },
+  beforeDestroy() {
+    if (this.vantaEffect) {
+      this.vantaEffect.destroy()
+    }
+  },
 
 
 }
@@ -90,6 +112,19 @@ export default {
 </script>
 
 <style scoped>
+
+.bg{
+  /*background-image: url("../assets/loginBackground.png");*/
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 
 
 .el-container{
@@ -112,8 +147,6 @@ export default {
 }
 
 .el-header {
-  background-color:lightslategray;
-  color: #333;
   text-align: center;
   line-height: 60px;
 }
@@ -135,5 +168,6 @@ export default {
 a{
   text-decoration: none;
 }
+
 
 </style>

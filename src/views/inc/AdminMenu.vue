@@ -2,7 +2,7 @@
   <el-menu
       :default-active="this.$route.name"
       class="el-menu-vertical-demo"
-      background-color="rgba(50,50,50)"
+      background-color="rgba(50,50,50,0.8)"
       text-color="white"
   >
 
@@ -139,8 +139,7 @@ export default {
   height: 100vh;
 }    a{
        text-decoration:none;
-       background-color: rgb(23, 22, 22);
+       background-color: rgba(23, 22, 22,0.8);
      }
-
 
 </style>

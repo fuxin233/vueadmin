@@ -12,8 +12,10 @@
         title="修改当前头像"
         :visible.sync="avatarVisible"
         width="300px"
+        :append-to-body="true"
+        :before-close="resetAvatar"
     >
-    <el-form style="margin-left: -75px">
+    <el-form >
     <el-upload
         class="avatar-uploader"
         action="http://127.0.0.1:8081/user/saveAvatar"
@@ -22,7 +24,7 @@
         :on-success="handleImgSuccess"
         :before-upload="beforeImgUpload"
         name="file">
-      <img v-if="imageUrl" :src=imageUrl>
+      <el-avatar v-if="imageUrl" :src="imageUrl" style="width: 150px;height: 150px" ></el-avatar>
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <div >
@@ -39,6 +41,7 @@
     <el-dialog
         title="修改当前密码"
         :visible.sync="passwordVisible"
+        :append-to-body="true"
         width="600px"
         :before-close="handleClose">
     <el-form :model="passForm" status-icon :rules="rules" ref="passForm" label-width="100px">
@@ -140,10 +143,16 @@ export default {
         });
 
     },
-
+    resetAvatar(){
+      this.imageUrl='';
+      this.avatarVisible=false
+    },
     resetForm(formName) {
+      this.imageUrl = ""
+      this.avatarVisible = false
       this.$refs[formName].resetFields();
       this.passwordVisible = false
+
     },
     handleClose() {
       this.resetForm('passForm')
@@ -183,8 +192,7 @@ export default {
                 this.getUserInfo()
               }
             });
-            this.imageUrl=''
-            this.avatarVisible = false
+            this.resetForm()
           })
     }
   }
@@ -193,19 +201,9 @@ export default {
 </script>
 <style scoped>
 .el-form {
-  width: 420px;
-  margin: 50px auto;
+  text-align: center;
 }
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
+
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
