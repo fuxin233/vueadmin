@@ -10,7 +10,7 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getUserList">搜索</el-button>
+        <el-button @click="getCpuList">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -23,7 +23,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="getUserList()">刷新</el-button>
+        <el-button type="primary" @click="getCpuList()">刷新</el-button>
       </el-form-item>
     </el-form>
 
@@ -34,96 +34,138 @@
         style="width: 100%"
         border
         stripe
+        :highlight-current-row = "true"
         @selection-change="handleSelectionChange">
 
       <el-table-column
-
           type="selection"
-          width="55">
-      </el-table-column>
-
-      <el-table-column
-          fixed
-          width="100"
-          prop="cpuId"
-          label="CPU ID"
-      >
+          width="55"
+          align="center">
       </el-table-column>
       <el-table-column
           fixed
-          width="200"
           prop="cpuName"
           label="CPU型号"
+          align="center"
+          width="280"
       >
       </el-table-column>
 
       <el-table-column
-          width="120"
           prop="cpuFrequency"
-          label="基础频率">
+          label="基础频率"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuFrequency}}Mhz
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
           prop="cpuMaxFrequency"
-          label="最大睿频">
+          label="最大睿频"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuMaxFrequency}}Mhz
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
-          prop="cpuCoreThread"
-          label="核心/线程">
+          prop="cpuCore"
+          label="核心"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuCore}}C
+        </template>
+      </el-table-column>
+      <el-table-column
+          prop="cpuThread"
+          label="线程"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuThread}}T
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
           prop="cpuCache"
-          label="缓存">
+          label="缓存"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuCache}}MB
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
           prop="cpuSize"
-          label="制程">
+          label="制程"
+          align="center">
       </el-table-column>
 
       <el-table-column
-          width="120"
           prop="cpuTdp"
-          label="TDP">
+          label="TDP"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuTdp}}W
+        </template>
       </el-table-column>
 
 
       <el-table-column
-          width="120"
           prop="cpuType"
-          label="CPU类型">
+          label="CPU类型"
+          align="center">
+        <template slot-scope="scope">
+        <el-tag type="info" effect="plain">{{scope.row.cpuType}}</el-tag>
+        </template>
       </el-table-column>
 
 
       <el-table-column
-          width="120"
           prop="cpuPrice"
-          label="价格">
+          label="价格"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.cpuPrice}}元
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="150"
           prop="cpuDate"
-          label="发布日期">
+          label="发布日期"
+          align="center"
+          width="250"
+      >
+        <template slot-scope="scope">
+          <el-date-picker
+              v-model= "scope.row.cpuDate"
+              type="date"
+              readonly>
+          </el-date-picker>
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
-          prop="cpuIndex"
-          label="显卡评分">
+          prop="cpuMultiIndex"
+          label="多核评分"
+          align="center">
+      </el-table-column>
+      <el-table-column
+          prop="cpuSingleIndex"
+          label="单核评分"
+          align="center">
+      </el-table-column>
+      <el-table-column
+          prop="cpuHot"
+          label="CPU热度"
+          align="center">
       </el-table-column>
 
       <el-table-column
           fixed="right"
           prop="icon"
-          width="260px"
-          label="操作">
+          label="操作"
+          align="center">
 
         <template slot-scope="scope">
 
@@ -154,103 +196,135 @@
 
     <!--新增对话框-->
     <el-dialog
-        title="添加显卡"
+        title="添加CPU"
         :visible.sync="saveVisible"
         width="600px"
+        :append-to-body="true"
         :before-close="handleClose">
 
-
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="显卡型号" prop="cpuName" label-width="100px">
-          <el-input placeholder="请输入显卡型号" v-model="editForm.cpuName" autocomplete="off"></el-input>
+        <el-form-item label="CPU型号" prop="cpuName" label-width="100px">
+          <el-input placeholder="请输入CPU型号" v-model="editForm.cpuName" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="基础频率" prop="cpuFrequency" label-width="100px">
+        <el-form-item label="基础频率" prop="cpuFrequency" label-width="100px"
+      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入基础频率"
-              v-model="editForm.cpuFrequency"
+              v-model.number="editForm.cpuFrequency"
               autocomplete="off">
-            <template slot="append">MHZ</template>
+            <template slot="append">Mhz</template>
           </el-input>
         </el-form-item>
 
 
 
-        <el-form-item label="最大睿频" prop="cpuMaxFrequency" label-width="100px">
+        <el-form-item label="最大睿频" prop="cpuMaxFrequency" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入最大睿频"
-              v-model="editForm.cpuMaxFrequency"
+              v-model.number="editForm.cpuMaxFrequency"
               autocomplete="off">
-            <template slot="append">MHZ</template>
+            <template slot="append">Mhz</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="核心/线程" prop="cpuCoreThread" label-width="100px">
+        <el-form-item label="核心" prop="cpuCore" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入核心"
-              v-model="editForm.cpuCore"
+              v-model.number="editForm.cpuCore"
               autocomplete="off">
             <template slot="append">C</template>
           </el-input>
-          <div style="margin: 20px 0;"></div>
+        </el-form-item>
+        <el-form-item label="线程" prop="cpuThread" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入线程"
-              v-model="editForm.cpuThread"
+              v-model.number="editForm.cpuThread"
               autocomplete="off">
             <template slot="append">T</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="缓存" prop="cpuCache" label-width="100px">
+
+        <el-form-item label="缓存" prop="cpuCache" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入缓存"
-              v-model="editForm.cpuCache"
+              v-model.number="editForm.cpuCache"
               autocomplete="off">
             <template slot="append">MB</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="制程" prop="cpuSize" label-width="100px">
+        <el-form-item label="制程" prop="cpuSize" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               :min="1"
               :max="20"
               placeholder="请输入制程"
-              v-model="editForm.cpuSize"
+              v-model.number="editForm.cpuSize"
               autocomplete="off">
             <template slot="append">nm</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="TDP" prop="cpuTdp" label-width="100px">
+        <el-form-item label="TDP" prop="cpuTdp" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入TDP"
-              v-model="editForm.cpuTdp"
+              v-model.number="editForm.cpuTdp"
               autocomplete="off">
             <template slot="append">W</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="价格" prop="cpuPrice" label-width="100px">
+        <el-form-item label="参考价格" prop="cpuPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入价格"
-              v-model="editForm.cpuPrice"
+              placeholder="请输入参考价格"
+              v-model.number="editForm.cpuPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="leaveTime" label-width="100px">
+        <el-form-item label="发布时间" prop="cpuDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
 
           <el-date-picker
               v-model="editForm.cpuDate"
@@ -261,7 +335,9 @@
 
         </el-form-item>
 
-        <el-form-item label="CPU类型" prop="cpuType" label-width="100px">
+        <el-form-item label="CPU类型" prop="cpuType" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-select v-model="editForm.cpuType" filterable placeholder="请选择">
             <el-option
                 v-for="item in options"
@@ -271,7 +347,29 @@
             </el-option>
           </el-select>
         </el-form-item>
-
+        <el-form-item label="多核评分" prop="cpuMultiIndex" label-width="100px" :rules="[
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入多核评分"
+              v-model.number="editForm.cpuMultiIndex"
+              autocomplete="off">
+            <template slot="append">分</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="单核评分" prop="cpuSingleIndex" label-width="100px"
+                      :rules="[
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入多核评分"
+              v-model.number="editForm.cpuSingleIndex"
+              autocomplete="off">
+            <template slot="append">分</template>
+          </el-input>
+        </el-form-item>
 
 
       </el-form>
@@ -286,95 +384,133 @@
         title="更新显卡"
         :visible.sync="updateVisible"
         width="600px"
+        :append-to-body="true"
         :before-close="handleClose">
 
 
-      <el-form :model="editForm" ref="editForm">
-        <el-form-item label="显卡型号" prop="cpuName" label-width="100px">
-          <el-input placeholder="请输入显卡型号" v-model="editForm.cpuName" autocomplete="off"></el-input>
+      <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+        <el-form-item label="CPU型号" prop="cpuName" label-width="100px">
+          <el-input placeholder="请输入CPU型号" v-model="editForm.cpuName" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="基础频率" prop="cpuFrequency" label-width="100px">
+        <el-form-item label="基础频率" prop="cpuFrequency" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入基础频率"
-              v-model="editForm.cpuFrequency"
+              v-model.number="editForm.cpuFrequency"
               autocomplete="off">
-            <template slot="append">MHZ</template>
+            <template slot="append">Mhz</template>
           </el-input>
         </el-form-item>
 
 
 
-        <el-form-item label="最大睿频" prop="cpuMaxFrequency" label-width="100px">
+        <el-form-item label="最大睿频" prop="cpuMaxFrequency" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入最大睿频"
-              v-model="editForm.cpuMaxFrequency"
+              v-model.number="editForm.cpuMaxFrequency"
               autocomplete="off">
-            <template slot="append">MHZ</template>
+            <template slot="append">Mhz</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="核心/线程" prop="cpuCoreThread" label-width="100px">
+        <el-form-item label="核心" prop="cpuCore" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入核心/线程(32C/24T)"
-              v-model="editForm.cpuCoreThread"
+              placeholder="请输入核心"
+              v-model.number="editForm.cpuCore"
               autocomplete="off">
-            <template slot="append">Gbps</template>
+            <template slot="append">C</template>
           </el-input>
-
+        </el-form-item>
+        <el-form-item label="线程" prop="cpuThread" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入线程"
+              v-model.number="editForm.cpuThread"
+              autocomplete="off">
+            <template slot="append">T</template>
+          </el-input>
         </el-form-item>
 
-        <el-form-item label="缓存" prop="cpuCache" label-width="100px">
+
+        <el-form-item label="缓存" prop="cpuCache" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入缓存"
-              v-model="editForm.cpuCache"
+              v-model.number="editForm.cpuCache"
               autocomplete="off">
             <template slot="append">MB</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="制程" prop="cpuSize" label-width="100px">
+        <el-form-item label="制程" prop="cpuSize" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-
               :min="1"
               :max="20"
-              maxlength="2"
               placeholder="请输入制程"
-              v-model="editForm.cpuSize"
+              v-model.number="editForm.cpuSize"
               autocomplete="off">
             <template slot="append">nm</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="TDP" prop="cpuTdp" label-width="100px">
+        <el-form-item label="TDP" prop="cpuTdp" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入TDP"
-              v-model="editForm.cpuTdp"
+              v-model.number="editForm.cpuTdp"
               autocomplete="off">
             <template slot="append">W</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="价格" prop="cpuPrice" label-width="100px">
+        <el-form-item label="价格" prop="cpuPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入价格"
-              v-model="editForm.cpuPrice"
+              v-model.number="editForm.cpuPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="leaveTime" label-width="100px">
+        <el-form-item label="发布时间" prop="cpuDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
 
           <el-date-picker
               v-model="editForm.cpuDate"
@@ -385,7 +521,9 @@
 
         </el-form-item>
 
-        <el-form-item label="CPU类型" prop="cpuType" label-width="100px">
+        <el-form-item label="CPU类型" prop="cpuType" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-select v-model="editForm.cpuType" filterable placeholder="请选择">
             <el-option
                 v-for="item in options"
@@ -394,6 +532,29 @@
                 :value="item.value">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="多核评分" prop="cpuMultiIndex" label-width="100px" :rules="[
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入多核评分"
+              v-model.number="editForm.cpuMultiIndex"
+              autocomplete="off">
+            <template slot="append">分</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="单核评分" prop="cpuSingleIndex" label-width="100px"
+                      :rules="[
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入多核评分"
+              v-model.number="editForm.cpuSingleIndex"
+              autocomplete="off">
+            <template slot="append">分</template>
+          </el-input>
         </el-form-item>
 
 
@@ -413,26 +574,12 @@ export default {
   name: "CPU",
   title:"CPU信息管理",
   data() {
-    var validateValue = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入CPU信息'));
-      }
-      else if(value !== value.replace(/[^0-9.]/g,'')) {
-        callback(new Error('请输入数字'));
-      }
-      else {
-        callback();
-      }
-    };
-
     return {
       searchForm: {},
       delBtlStatu: true,
       total: 0,
       size: 10,
       current: 1,
-
-      imageUrl: '',
 
       saveVisible: false,
       updateVisible: false,
@@ -445,8 +592,8 @@ export default {
         value: 'Ryzen',
         label: 'Ryzen'
       }, {
-        value: 'Core',
-        label: 'Core'
+        value: 'Intel',
+        label: 'Intel'
       }
       ],
       value: '',
@@ -456,33 +603,8 @@ export default {
 
       editFormRules: {
         cpuName: [
-          { required: true, message: '请输入CPU型号', trigger: 'blur' }
-        ],
-        cpuFrequency: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuMaxFrequency: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuCore: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuThread: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuCache: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuSize: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuTdp: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        cpuPrice: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-
+          { required: true, message: '请输入CPU型号', trigger: 'change' }
+        ]
 
 
       },
@@ -502,11 +624,8 @@ export default {
 
   },
   created() {
-    this.getUserList()
+    this.getCpuList()
 
-    this.$axios.get("/sys/cpu-multi/list").then(res => {
-      this.roleTreeData = res.data.data.records
-    })
   },
   methods: {
     toggleSelection(rows) {
@@ -529,12 +648,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getUserList()
+      this.getCpuList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getUserList()
+      this.getCpuList()
     },
 
     resetForm(formName) {
@@ -547,8 +666,8 @@ export default {
       this.resetForm('editForm')
     },
 
-    getUserList() {
-      this.$axios.get("/sys/cpu-multi/list", {
+    getCpuList() {
+      this.$axios.get("/cpu-detail/list", {
         params: {
           cpuName: this.searchForm.cpuName,
           current: this.current,
@@ -563,36 +682,21 @@ export default {
     },
 
     saveForm(formName) {
-      this.editForm.image =this.imageUrl;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/sys/cpu-multi/save',
-              {
-                cpuId:this.editForm.cpuId,
-                cpuName:this.editForm.cpuName,
-                cpuFrequency:this.editForm.cpuFrequency+' MHZ',
-                cpuMaxFrequency:this.editForm.cpuMaxFrequency + ' MHz',
-                cpuCoreThread:this.editForm.cpuCore+'C/'+this.editForm.cpuThread+'T',
-                cpuCache:this.editForm.cpuCache,
-                cpuSize:this.editForm.cpuSize+' nm',
-                cpuTdp:this.editForm.cpuTdp+' W',
-                cpuPrice:this.editForm.cpuPrice+' 元',
-                cpuDate:this.editForm.cpuDate,
-                cpuType:this.editForm.cpuType,
-              })
+          this.$axios.post('/cpu-detail/save',this.editForm
+              )
               .then(res => {
-
                 this.$message({
                   showClose: true,
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getUserList()
+                    this.getCpuList()
                   }
                 });
                 this.resetForm(formName)
                 this.dialogVisible = false
-                this.imageUrl=''
               })
         } else {
           console.log('error submit!!');
@@ -602,10 +706,9 @@ export default {
     },
 
     updateForm(formName){
-      this.editForm.image =this.imageUrl;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/sys/cpu-multi/update',this.editForm)
+          this.$axios.post('/cpu-detail/update',this.editForm)
               .then(res => {
 
                 this.$message({
@@ -613,12 +716,11 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getUserList()
+                    this.getCpuList()
                   }
                 });
                 this.resetForm(formName)
                 this.dialogVisible = false
-                this.imageUrl=''
               })
         } else {
           console.log('error submit!!');
@@ -629,9 +731,8 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/sys/cpu-multi/info/' + id).then(res => {
+      this.$axios.get('/cpu-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
-
         this.updateVisible = true
       })
     },
@@ -650,13 +751,14 @@ export default {
 
       console.log(ids)
 
-      this.$axios.post("/sys/cpu-multi/delete", ids).then(res => {
+      this.$axios.post("/cpu-detail/delete", ids).then(res => {
+        this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',
           type: 'success',
           onClose:() => {
-            this.getUserList()
+            this.getCpuList()
           }
         });
       })

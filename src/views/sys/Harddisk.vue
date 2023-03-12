@@ -3,14 +3,14 @@
     <el-form :inline="true">
       <el-form-item>
         <el-input
-            v-model="searchForm.memoryName"
-            placeholder="内存型号"
+            v-model="searchForm.harddiskName"
+            placeholder="显卡型号"
             clearable
         >
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getMemoryList">搜索</el-button>
+        <el-button @click="getHarddiskList">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -23,7 +23,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="getMemoryList()">刷新</el-button>
+        <el-button type="primary" @click="getHarddiskList()">刷新</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,72 +44,71 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="memoryName"
-          label="内存型号"
+          prop="harddiskName"
+          label="硬盘型号"
           align="center"
           width="320"
           show-overflow-tooltip
       >
       </el-table-column>
 
-
       <el-table-column
-          prop="memoryDdr"
-          label="内存条DDR代数"
+          prop="harddiskSize"
+          label="硬盘容量"
           align="center">
         <template slot-scope="scope">
-          DDR{{scope.row.memoryDdr}}代
+          {{scope.row.harddiskSize}}GB
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="memorySize"
-          label="内存容量"
+          prop="harddiskInterface"
+          label="支持接口"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.memorySize}}GB
+          {{scope.row.harddiskInterface}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="harddiskSpeed"
+          label="硬盘读速"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.harddiskSpeed}}MB/s
         </template>
       </el-table-column>
 
 
 
       <el-table-column
-          prop="memoryFrequency"
-          label="内存频率"
+          prop="harddiskType"
+          label="硬盘类型"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.memoryFrequency}}Mhz
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          prop="memoryType"
-          label="内存厂商"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.memoryType}}
+          <el-tag type="info" effect="plain">{{scope.row.harddiskType}}</el-tag>
         </template>
       </el-table-column>
 
 
       <el-table-column
-          prop="memoryPrice"
+          prop="harddiskPrice"
           label="参考价格"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.memoryPrice}}元
+          {{scope.row.harddiskPrice}}元
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="memoryDate"
+          prop="harddiskDate"
           label="发布日期"
           align="center"
           width="250"
       >
         <template slot-scope="scope">
           <el-date-picker
-              v-model= "scope.row.memoryDate"
+              v-model= "scope.row.harddiskDate"
               type="date"
               readonly>
           </el-date-picker>
@@ -117,8 +116,8 @@
       </el-table-column>
 
       <el-table-column
-          prop="memoryHot"
-          label="内存条热度"
+          prop="harddiskHot"
+          label="硬盘热度"
           align="center">
       </el-table-column>
 
@@ -130,11 +129,11 @@
 
         <template slot-scope="scope">
 
-          <el-button type="text" @click="editHandle(scope.row.memoryId)">编辑</el-button>
+          <el-button type="text" @click="editHandle(scope.row.harddiskId)">编辑</el-button>
           <el-divider direction="vertical"></el-divider>
 
           <template>
-            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.memoryId)">
+            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.harddiskId)">
               <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
@@ -156,96 +155,94 @@
 
     <!--新增对话框-->
     <el-dialog
-        title="添加内存"
+        title="添加硬盘"
         :visible.sync="saveVisible"
-        width="700px"
+        width="600px"
         :append-to-body="true"
-        top="5vh"
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="内存型号" prop="memoryName" label-width="100px">
-          <el-input placeholder="请输入内存型号" v-model="editForm.memoryName" autocomplete="off"></el-input>
+        <el-form-item label="硬盘型号" prop="harddiskName" label-width="100px">
+          <el-input placeholder="请输入硬盘型号" v-model="editForm.harddiskName" autocomplete="off"></el-input>
         </el-form-item>
 
-
-
-
-        <el-form-item label="DDR代数" prop="memoryDdr" label-width="100px"
+        <el-form-item label="硬盘容量" prop="harddiskSize" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入DDR代数"
-              v-model.number="editForm.memoryDdr"
-              autocomplete="off">
-            <template slot="append">代</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="内存容量" prop="memorySize" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入内存容量"
-              v-model.number="editForm.memorySize"
+              placeholder="请输入硬盘容量"
+              v-model.number="editForm.harddiskSize"
               autocomplete="off">
             <template slot="append">GB</template>
           </el-input>
         </el-form-item>
 
+        <el-form-item label="支持接口" prop="harddiskInterface" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-select v-model="editForm.harddiskInterface" filterable placeholder="请选择">
+            <el-option
+                v-for="item in options1"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-        <el-form-item label="内存频率" prop="memoryFrequency" label-width="100px"
+
+
+        <el-form-item label="硬盘读速" prop="harddiskSpeed" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存频率"
-              v-model.number="editForm.memoryFrequency"
+              placeholder="请输入硬盘读速"
+              v-model.number="editForm.harddiskSpeed"
               autocomplete="off">
-            <template slot="append">MHz</template>
+            <template slot="append">MB/s</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="产商" prop="memoryType" label-width="100px"
-                      :rules="[
+        <el-form-item label="硬盘类型" prop="harddiskType" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-          <el-input
-              :controls="false"
-              placeholder="产商"
-              v-model.number="editForm.memoryType"
-              autocomplete="off">
-          </el-input>
+          <el-select v-model="editForm.harddiskType" filterable placeholder="请选择">
+            <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
-        <el-form-item label="参考价格" prop="memoryPrice" label-width="100px" :rules="[
+
+        <el-form-item label="参考价格" prop="harddiskPrice" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
               placeholder="请输入参考价格"
-              v-model.number="editForm.memoryPrice"
+              v-model.number="editForm.harddiskPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="memoryDate" label-width="100px" :rules="[
+        <el-form-item label="发布时间" prop="harddiskDate" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
 
           <el-date-picker
-              v-model="editForm.memoryDate"
+              v-model="editForm.harddiskDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
@@ -262,96 +259,94 @@
 
     <!--更新对话框-->
     <el-dialog
-        title="更新内存"
+        title="更新显卡"
         :visible.sync="updateVisible"
         width="600px"
         :append-to-body="true"
-        top="5vh"
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="内存型号" prop="memoryName" label-width="100px">
-          <el-input placeholder="请输入内存型号" v-model="editForm.memoryName" autocomplete="off"></el-input>
+        <el-form-item label="硬盘型号" prop="harddiskName" label-width="100px">
+          <el-input placeholder="请输入硬盘型号" v-model="editForm.harddiskName" autocomplete="off"></el-input>
         </el-form-item>
 
-
-
-
-        <el-form-item label="DDR代数" prop="memoryDdr" label-width="100px"
+        <el-form-item label="硬盘容量" prop="harddiskSize" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入DDR代数"
-              v-model.number="editForm.memoryDdr"
-              autocomplete="off">
-            <template slot="append">代</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="内存容量" prop="memorySize" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入内存容量"
-              v-model.number="editForm.memorySize"
+              placeholder="请输入硬盘容量"
+              v-model.number="editForm.harddiskSize"
               autocomplete="off">
             <template slot="append">GB</template>
           </el-input>
         </el-form-item>
 
+        <el-form-item label="支持接口" prop="harddiskInterface" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-select v-model="editForm.harddiskInterface" filterable placeholder="请选择">
+            <el-option
+                v-for="item in options1"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-        <el-form-item label="内存频率" prop="memoryFrequency" label-width="100px"
+
+
+        <el-form-item label="硬盘读速" prop="harddiskSpeed" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存频率"
-              v-model.number="editForm.memoryFrequency"
+              placeholder="请输入硬盘读速"
+              v-model.number="editForm.harddiskSpeed"
               autocomplete="off">
-            <template slot="append">MHz</template>
+            <template slot="append">MB/s</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="产商" prop="memoryType" label-width="100px"
-                      :rules="[
+        <el-form-item label="硬盘类型" prop="harddiskType" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-          <el-input
-              :controls="false"
-              placeholder="产商"
-              v-model.number="editForm.memoryType"
-              autocomplete="off">
-          </el-input>
+          <el-select v-model="editForm.harddiskType" filterable placeholder="请选择">
+            <el-option
+                v-for="item in options2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
-        <el-form-item label="参考价格" prop="memoryPrice" label-width="100px" :rules="[
+
+        <el-form-item label="参考价格" prop="harddiskPrice" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
               placeholder="请输入参考价格"
-              v-model.number="editForm.memoryPrice"
+              v-model.number="editForm.harddiskPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="memoryDate" label-width="100px" :rules="[
+        <el-form-item label="发布时间" prop="harddiskDate" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
 
           <el-date-picker
-              v-model="editForm.memoryDate"
+              v-model="editForm.harddiskDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
@@ -372,8 +367,8 @@
 
 <script>
 export default {
-  name: "Memory",
-  title:"内存信息管理",
+  name: "Harddisk",
+  title:"硬盘信息管理",
   data() {
     return {
       searchForm: {},
@@ -388,15 +383,31 @@ export default {
       editForm: {
 
       },
-
+      //选择框
+      options1: [{
+        value: 'PCIE',
+        label: 'PCIE'
+      }, {
+        value: 'SATA',
+        label: 'SATA'
+      }
+      ],
+      options2: [{
+        value: '固态硬盘',
+        label: '固态硬盘'
+      }, {
+        value: '机械硬盘',
+        label: '机械硬盘'
+      }
+      ],
       value: '',
 
 
       tableData: [],
 
       editFormRules: {
-        memoryName: [
-          { required: true, message: '请输入主板型号', trigger: 'change' }
+        harddiskName: [
+          { required: true, message: '请输入硬盘型号', trigger: 'change' }
         ]
 
 
@@ -409,6 +420,7 @@ export default {
         children: 'children',
         label: 'name'
       },
+      roleForm: {},
       roleTreeData:  [],
       treeCheckedKeys: [],
       checkStrictly: true
@@ -416,7 +428,7 @@ export default {
 
   },
   created() {
-    this.getMemoryList()
+    this.getHarddiskList()
 
   },
   methods: {
@@ -440,12 +452,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getMemoryList()
+      this.getHarddiskList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getMemoryList()
+      this.getHarddiskList()
     },
 
     resetForm(formName) {
@@ -462,10 +474,10 @@ export default {
       this.resetForm('editForm')
     },
 
-    getMemoryList() {
-      this.$axios.get("/memory-detail/list", {
+    getHarddiskList() {
+      this.$axios.get("/harddisk-detail/list", {
         params: {
-          memoryName: this.searchForm.memoryName,
+          harddiskName: this.searchForm.harddiskName,
           current: this.current,
           size: this.size
         }
@@ -480,7 +492,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/memory-detail/save',this.editForm
+          this.$axios.post('/harddisk-detail/save',this.editForm
           )
               .then(res => {
                 this.$message({
@@ -488,7 +500,7 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getMemoryList()
+                    this.getHarddiskList()
                   }
                 });
                 this.resetForm(formName)
@@ -504,7 +516,7 @@ export default {
     updateForm(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/memory-detail/update',this.editForm)
+          this.$axios.post('/harddisk-detail/update',this.editForm)
               .then(res => {
 
                 this.$message({
@@ -512,7 +524,7 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getMemoryList()
+                    this.getHarddiskList()
                   }
                 });
                 this.resetForm(formName)
@@ -527,7 +539,7 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/mainboard-detail/getById/' + id).then(res => {
+      this.$axios.get('/harddisk-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
         this.updateVisible = true
       })
@@ -541,20 +553,20 @@ export default {
         ids.push(id)
       } else {
         this.multipleSelection.forEach(row => {
-          ids.push(row.memoryId)
+          ids.push(row.harddiskId)
         })
       }
 
       console.log(ids)
 
-      this.$axios.post("/memory-detail/delete", ids).then(res => {
+      this.$axios.post("/harddisk-detail/delete", ids).then(res => {
         this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',
           type: 'success',
           onClose:() => {
-            this.getMemoryList()
+            this.getHarddiskList()
           }
         });
       })

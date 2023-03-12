@@ -373,6 +373,7 @@ export default {
 
       console.log(ids)
       this.$axios.post("/article-detail/delete", ids).then(res => {
+        this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',

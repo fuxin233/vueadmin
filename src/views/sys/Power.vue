@@ -3,14 +3,14 @@
     <el-form :inline="true">
       <el-form-item>
         <el-input
-            v-model="searchForm.atxName"
-            placeholder="电源型号"
+            v-model="searchForm.powerName"
+            placeholder="内存型号"
             clearable
         >
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getUserList">搜索</el-button>
+        <el-button @click="getPowerList">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -23,7 +23,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="getUserList()">刷新</el-button>
+        <el-button type="primary" @click="getPowerList()">刷新</el-button>
       </el-form-item>
     </el-form>
 
@@ -34,103 +34,121 @@
         style="width: 100%"
         border
         stripe
+        :highlight-current-row = "true"
         @selection-change="handleSelectionChange">
 
       <el-table-column
-
           type="selection"
-          width="55">
-      </el-table-column>
-
-      <el-table-column
-          fixed
-          width="100"
-          prop="atxId"
-          label="电源ID"
-      >
+          width="55"
+          align="center">
       </el-table-column>
       <el-table-column
           fixed
-          width="200"
-          prop="atxName"
+          prop="powerName"
           label="电源型号"
+          align="center"
+          width="320"
+          show-overflow-tooltip
       >
       </el-table-column>
 
+
       <el-table-column
-          width="120"
-          prop="atxPower"
-          label="额定功率">
+          prop="powerPower"
+          label="额定功率"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerPower}}W
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="powerStructure"
+          label="基本结构"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerStructure}}
+        </template>
+      </el-table-column>
+
+
+
+      <el-table-column
+          prop="powerVoltage"
+          label="电压范围"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerVoltage}}V
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="powerWire"
+          label="线材种类"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerWire}}
+        </template>
       </el-table-column>
 
 
       <el-table-column
-          width="120"
-          prop="atxStructure"
-          label="基本结构">
-      </el-table-column>
-
-      <el-table-column
-          width="120"
-          prop="atxType"
-          label="电源类型">
-      </el-table-column>
-
-      <el-table-column
-          width="120"
-          prop="atxVoltage"
-          label="电压范围">
+          prop="powerWarranty"
+          label="质保年限"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerWarranty}}年
+        </template>
       </el-table-column>
 
 
+
       <el-table-column
-          width="120"
-          prop="atxWire"
-          label="线材种类">
+          prop="powerPrice"
+          label="参考价格"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.powerPrice}}元
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
-          prop="atxWarranty"
-          label="质保年限">
-      </el-table-column>
-
-
-      <el-table-column
-          width="120"
-          prop="atxPrice"
-          label="价格">
-      </el-table-column>
-
-      <el-table-column
-          width="150"
-          prop="atxDate"
-          label="发布日期">
+          prop="powerDate"
+          label="发布日期"
+          align="center"
+          width="250"
+      >
+        <template slot-scope="scope">
+          <el-date-picker
+              v-model= "scope.row.powerDate"
+              type="date"
+              readonly>
+          </el-date-picker>
+        </template>
       </el-table-column>
 
       <el-table-column
-          width="120"
-          prop="atxIndex"
-          label="电源评分">
+          prop="powerHot"
+          label="电源热度"
+          align="center">
       </el-table-column>
 
       <el-table-column
           fixed="right"
           prop="icon"
-          width="260px"
-          label="操作">
+          label="操作"
+          align="center">
 
         <template slot-scope="scope">
 
-          <el-button type="text" @click="editHandle(scope.row.atxId)">编辑</el-button>
+          <el-button type="text" @click="editHandle(scope.row.powerId)">编辑</el-button>
           <el-divider direction="vertical"></el-divider>
 
           <template>
-            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.atxId)">
+            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.powerId)">
               <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
-
         </template>
       </el-table-column>
 
@@ -149,99 +167,112 @@
 
     <!--新增对话框-->
     <el-dialog
-        title="添加电源信息"
+        title="添加电源"
         :visible.sync="saveVisible"
-        width="600px"
+        width="700px"
+        :append-to-body="true"
+        top="5vh"
         :before-close="handleClose">
 
-
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="电源型号" prop="atxName" label-width="100px">
-          <el-input placeholder="请输入电源型号" v-model="editForm.atxName" autocomplete="off"></el-input>
+        <el-form-item label="电源型号" prop="powerName" label-width="100px">
+          <el-input placeholder="请输入电源型号" v-model="editForm.powerName" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="额定功率" prop="atxPower" label-width="100px">
+
+        <el-form-item label="额定功率" prop="powerPower" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入额定功率"
-              v-model="editForm.atxPower"
+              v-model.number="editForm.powerPower"
               autocomplete="off">
             <template slot="append">W</template>
           </el-input>
         </el-form-item>
 
-
-
-        <el-form-item label="基本结构" prop="atxStructure" label-width="100px">
+        <el-form-item label="基本结构" prop="powerStructure" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入基本结构"
-              v-model="editForm.atxStructure"
+              v-model.number="editForm.powerStructure"
               autocomplete="off">
           </el-input>
         </el-form-item>
 
-        <el-form-item label="电源类型" prop="atxType" label-width="100px">
+
+        <el-form-item label="电压范围" prop="powerVoltage" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入电源类型"
-              v-model="editForm.atxType"
+              placeholder="请输入电压范围"
+              v-model.number="editForm.powerVoltage"
               autocomplete="off">
+            <template slot="append">V</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="电压范围" prop="atxVoltage" label-width="100px">
+        <el-form-item label="线材种类" prop="powerWire" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入电压范围(格式110~120V)"
-              v-model="editForm.atxVoltage"
+              placeholder="请输入线材种类"
+              v-model.number="editForm.powerWire"
               autocomplete="off">
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="线材种类" prop="atxWire" label-width="100px">
-          <el-input
-              :controls="false"
-              :min="1"
-              :max="20"
-              placeholder="线材种类"
-              v-model="editForm.atxWire"
-              autocomplete="off">
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="质保年限" prop="atxWarranty" label-width="100px">
+        <el-form-item label="质保年限" prop="powerWarranty" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入质保年限"
-              v-model="editForm.atxWarranty"
+              v-model.number="editForm.powerWarranty"
               autocomplete="off">
             <template slot="append">年</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="价格" prop="atxPrice" label-width="100px">
+        <el-form-item label="参考价格" prop="powerPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-              oninput="value=value.replace(/[^0-9.]/g,'')"
-              placeholder="请输入价格"
-              v-model="editForm.atxPrice"
+              placeholder="请输入参考价格"
+              v-model.number="editForm.powerPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="leaveTime" label-width="100px">
+        <el-form-item label="发布时间" prop="powerDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
 
           <el-date-picker
-              v-model="editForm.atxDate"
+              v-model="editForm.powerDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
           </el-date-picker>
+
         </el-form-item>
 
       </el-form>
@@ -253,99 +284,113 @@
 
     <!--更新对话框-->
     <el-dialog
-        title="更新电源信息"
+        title="更新内存"
         :visible.sync="updateVisible"
         width="600px"
+        :append-to-body="true"
+        top="5vh"
         :before-close="handleClose">
 
-
-      <el-form :model="editForm"  ref="editForm">
-        <el-form-item label="电源型号" prop="atxName" label-width="100px">
-          <el-input placeholder="请输入电源型号" v-model="editForm.atxName" autocomplete="off"></el-input>
+      <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+        <el-form-item label="电源型号" prop="powerName" label-width="100px">
+          <el-input placeholder="请输入电源型号" v-model="editForm.powerName" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="额定功率" prop="atxPower" label-width="100px">
+
+        <el-form-item label="额定功率" prop="powerPower" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-              oninput="value=value.replace(/[^\d.]/g,'')"
               placeholder="请输入额定功率"
-              v-model="editForm.atxPower"
+              v-model.number="editForm.powerPower"
               autocomplete="off">
             <template slot="append">W</template>
           </el-input>
         </el-form-item>
 
-
-
-        <el-form-item label="基本结构" prop="atxStructure" label-width="100px">
+        <el-form-item label="基本结构" prop="powerStructure" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入基本结构"
-              v-model="editForm.atxStructure"
+              v-model.number="editForm.powerStructure"
               autocomplete="off">
           </el-input>
         </el-form-item>
 
-        <el-form-item label="电源类型" prop="atxType" label-width="100px">
+
+        <el-form-item label="电压范围" prop="powerVoltage" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入电源类型"
-              v-model="editForm.atxType"
+              placeholder="请输入电压范围"
+              v-model.number="editForm.powerVoltage"
               autocomplete="off">
+            <template slot="append">V</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="电压范围" prop="atxVoltage" label-width="100px">
+        <el-form-item label="线材种类" prop="powerWire" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入电压范围(格式110~120V)"
-              v-model="editForm.atxVoltage"
+              placeholder="请输入线材种类"
+              v-model.number="editForm.powerWire"
               autocomplete="off">
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="线材种类" prop="atxWire" label-width="100px">
-          <el-input
-              :controls="false"
-              :min="1"
-              :max="20"
-              placeholder="线材种类"
-              v-model="editForm.atxWire"
-              autocomplete="off">
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="质保年限" prop="atxWarranty" label-width="100px">
+        <el-form-item label="质保年限" prop="powerWarranty" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
               placeholder="请输入质保年限"
-              v-model="editForm.atxWarranty"
+              v-model.number="editForm.powerWarranty"
               autocomplete="off">
             <template slot="append">年</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="价格" prop="atxPrice" label-width="100px">
+        <el-form-item label="参考价格" prop="powerPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
           <el-input
               :controls="false"
-              placeholder="请输入价格"
-              v-model="editForm.atxPrice"
+              placeholder="请输入参考价格"
+              v-model.number="editForm.powerPrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="leaveTime" label-width="100px">
+        <el-form-item label="发布时间" prop="powerDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
 
           <el-date-picker
-              v-model="editForm.atxDate"
+              v-model="editForm.powerDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
           </el-date-picker>
+
         </el-form-item>
 
       </el-form>
@@ -364,17 +409,6 @@ export default {
   name: "Power",
   title:"电源信息管理",
   data() {
-    var validateValue = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入电源信息'));
-      }
-      else if(value !== value.replace(/[^0-9.]/g,'')) {
-        callback(new Error('请输入数字'));
-      }
-      else {
-        callback();
-      }
-    };
     return {
       searchForm: {},
       delBtlStatu: true,
@@ -382,42 +416,22 @@ export default {
       size: 10,
       current: 1,
 
-      imageUrl: '',
-
       saveVisible: false,
       updateVisible: false,
 
       editForm: {
 
       },
-      //选择框
-      options: [{
-        value: 'Ryzen',
-        label: 'Ryzen'
-      }, {
-        value: 'Core',
-        label: 'Core'
-      }
-      ],
+
       value: '',
 
 
       tableData: [],
 
       editFormRules: {
-        atxName: [
-          { required: true, message: '请输入电源型号', trigger: 'blur' }
-        ],
-        atxPower: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        atxWarranty: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-        atxPrice: [
-          { validator: validateValue, trigger: 'blur' },
-        ],
-
+        powerName: [
+          { required: true, message: '请输入主板型号', trigger: 'change' }
+        ]
 
 
       },
@@ -429,7 +443,6 @@ export default {
         children: 'children',
         label: 'name'
       },
-      roleForm: {},
       roleTreeData:  [],
       treeCheckedKeys: [],
       checkStrictly: true
@@ -437,11 +450,8 @@ export default {
 
   },
   created() {
-    this.getUserList()
+    this.getPowerList()
 
-    this.$axios.get("/sys/atx/list").then(res => {
-      this.roleTreeData = res.data.data.records
-    })
   },
   methods: {
     toggleSelection(rows) {
@@ -464,12 +474,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getUserList()
+      this.getPowerList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getUserList()
+      this.getPowerList()
     },
 
     resetForm(formName) {
@@ -477,15 +487,19 @@ export default {
       this.updateVisible = false
       this.saveVisible=false
       this.editForm = {}
+      this.total = 0
+      this.size = 10
+      this.current = 1
+
     },
     handleClose() {
       this.resetForm('editForm')
     },
 
-    getUserList() {
-      this.$axios.get("/sys/atx/list", {
+    getPowerList() {
+      this.$axios.get("/power-detail/list", {
         params: {
-          atxName: this.searchForm.atxName,
+          powerName: this.searchForm.powerName,
           current: this.current,
           size: this.size
         }
@@ -498,38 +512,21 @@ export default {
     },
 
     saveForm(formName) {
-      this.editForm.image =this.imageUrl;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/sys/atx/save',
-              {
-                atxId:this.editForm.atxId,
-                atxName:this.editForm.atxName,
-                atxPower:this.editForm.atxPower,
-                atxStructure:this.editForm.atxStructure,
-                atxType:this.editForm.atxType,
-                atxVoltage:this.editForm.atxVoltage,
-                atxWire:this.editForm.atxWire+' MHZ',
-                atxWarranty:this.editForm.atxWarranty+'年',
-                atxPrice:this.editForm.atxPrice,
-                atxDate:this.editForm.atxDate,
-
-
-
-              })
+          this.$axios.post('/power-detail/save',this.editForm
+          )
               .then(res => {
-
                 this.$message({
                   showClose: true,
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getUserList()
+                    this.getPowerList()
                   }
                 });
                 this.resetForm(formName)
                 this.dialogVisible = false
-                this.imageUrl=''
               })
         } else {
           console.log('error submit!!');
@@ -539,10 +536,9 @@ export default {
     },
 
     updateForm(formName){
-      this.editForm.image =this.imageUrl;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/sys/atx/update',this.editForm)
+          this.$axios.post('/power-detail/update',this.editForm)
               .then(res => {
 
                 this.$message({
@@ -550,12 +546,11 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getUserList()
+                    this.getPowerList()
                   }
                 });
                 this.resetForm(formName)
                 this.dialogVisible = false
-                this.imageUrl=''
               })
         } else {
           console.log('error submit!!');
@@ -566,9 +561,8 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/sys/atx/info/' + id).then(res => {
+      this.$axios.get('/power-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
-
         this.updateVisible = true
       })
     },
@@ -581,19 +575,20 @@ export default {
         ids.push(id)
       } else {
         this.multipleSelection.forEach(row => {
-          ids.push(row.atxId)
+          ids.push(row.powerId)
         })
       }
 
       console.log(ids)
 
-      this.$axios.post("/sys/atx/delete", ids).then(res => {
+      this.$axios.post("/power-detail/delete", ids).then(res => {
+        this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',
           type: 'success',
           onClose:() => {
-            this.getUserList()
+            this.getPowerList()
           }
         });
       })

@@ -3,14 +3,14 @@
     <el-form :inline="true">
       <el-form-item>
         <el-input
-            v-model="searchForm.gpuName"
-            placeholder="显卡型号"
+            v-model="searchForm.mainboardName"
+            placeholder="主板型号"
             clearable
         >
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getGpuList">搜索</el-button>
+        <el-button @click="getMainBoardList">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -23,7 +23,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="getGpuList()">刷新</el-button>
+        <el-button type="primary" @click="getMainBoardList()">刷新</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,120 +44,129 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="gpuName"
-          label="GPU型号"
+          prop="mainboardName"
+          label="主板型号"
           align="center"
-          width="280"
+          width="320"
+          show-overflow-tooltip
       >
       </el-table-column>
 
       <el-table-column
-          prop="gpuTdp"
-          label="显卡TDP功耗"
+          prop="mainboardWifi"
+          label="是否支持wifi"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuTdp}}W
+          <el-tag type="success" effect="dark" v-if="scope.row.mainboardWifi==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.mainboardWifi==0">不支持</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="gpuProcessor"
-          label="流处理器数"
+          prop="mainboardMemoryDdr"
+          label="支持内存条DDR代数"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuProcessor}}
+          DDR{{scope.row.mainboardMemoryDdr}}代
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="gpuFrequency"
-          label="GPU频率"
+          prop="mainboardMaxMemorySize"
+          label="最大内存容量"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuFrequency}}Mhz
+          {{scope.row.mainboardMaxMemorySize}}GB
         </template>
       </el-table-column>
+
+
+
       <el-table-column
-          prop="boostFrequency"
-          label="Boost频率"
+          prop="mainboardMaxMemorySocket"
+          label="内存插槽"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.boostFrequency}}Mhz
+          {{scope.row.mainboardMaxMemorySocket}}个
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="gpuMemoryRate"
-          label="显存速率"
+          prop="mainboardSize"
+          label="主板物理规格大小"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuMemoryRate}}Gbps
+          {{scope.row.mainboardSize}}cm²
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="gpuMemorySize"
-          label="显存容量"
+          prop="mainboardChannelSound"
+          label="主板声卡声道"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuMemorySize}}MB
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          prop="gpuSize"
-          label="显卡制程"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.gpuSize}}nm
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="gpuArea"
-          label="核心面积"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.gpuArea}}mm²
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="gpuTransistor"
-          label="晶体管数量"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.gpuTransistor}}M
+          {{scope.row.mainboardChannelSound}}声道
         </template>
       </el-table-column>
 
 
       <el-table-column
-          prop="gpuType"
-          label="GPU类型"
+          prop="mainboardSata"
+          label="SATA接口数量"
           align="center">
         <template slot-scope="scope">
-          <el-tag type="info" effect="plain">{{scope.row.gpuType}}</el-tag>
+          {{scope.row.mainboardSata}}个
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="mainboardPcie"
+          label="PCIE接口数量"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.mainboardPcie}}个
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="mainboardIntelSupport"
+          label="支持英特尔CPU"
+          align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" effect="dark" v-if="scope.row.mainboardIntelSupport==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.mainboardIntelSupport==0">不支持</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="mainboardRyzenSupport"
+          label="支持瑞龙CPU"
+          align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" effect="dark" v-if="scope.row.mainboardRyzenSupport==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.mainboardRyzenSupport==0">不支持</el-tag>
         </template>
       </el-table-column>
 
 
       <el-table-column
-          prop="gpuPrice"
-          label="价格"
+          prop="mainboardPrice"
+          label="参考价格"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.gpuPrice}}元
+          {{scope.row.mainboardPrice}}元
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="gpuDate"
+          prop="mainboardDate"
           label="发布日期"
           align="center"
           width="250"
       >
         <template slot-scope="scope">
           <el-date-picker
-              v-model= "scope.row.gpuDate"
+              v-model= "scope.row.mainboardDate"
               type="date"
               readonly>
           </el-date-picker>
@@ -165,13 +174,8 @@
       </el-table-column>
 
       <el-table-column
-          prop="gpuIndex"
-          label="显卡评分"
-          align="center">
-      </el-table-column>
-      <el-table-column
-          prop="gpuHot"
-          label="GPU热度"
+          prop="mainboardHot"
+          label="主板热度"
           align="center">
       </el-table-column>
 
@@ -183,15 +187,14 @@
 
         <template slot-scope="scope">
 
-          <el-button type="text" @click="editHandle(scope.row.gpuId)">编辑</el-button>
+          <el-button type="text" @click="editHandle(scope.row.mainboardId)">编辑</el-button>
           <el-divider direction="vertical"></el-divider>
 
           <template>
-            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.gpuId)">
+            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.mainboardId)">
               <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
-
         </template>
       </el-table-column>
 
@@ -210,174 +213,23 @@
 
     <!--新增对话框-->
     <el-dialog
-        title="添加GPU"
+        title="添加主板"
         :visible.sync="saveVisible"
-        width="600px"
+        width="700px"
         :append-to-body="true"
         top="5vh"
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="GPU型号" prop="gpuName" label-width="100px">
-          <el-input placeholder="请输入GPU型号" v-model="editForm.gpuName" autocomplete="off"></el-input>
-        </el-form-item>
-
-        <el-form-item label="显卡功耗" prop="gpuTdp" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显卡功耗"
-              v-model.number="editForm.gpuTdp"
-              autocomplete="off">
-            <template slot="append">W</template>
-          </el-input>
+        <el-form-item label="主板型号" prop="harddiskName" label-width="100px">
+          <el-input placeholder="请输入主板型号" v-model="editForm.mainboardName" autocomplete="off"></el-input>
         </el-form-item>
 
 
-
-        <el-form-item label="流处理器数" prop="gpuProcessor" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入流处理器数"
-              v-model.number="editForm.gpuProcessor"
-              autocomplete="off">
-            <template slot="append">个</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="GPU频率" prop="gpuFrequency" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入GPU频率"
-              v-model.number="editForm.gpuFrequency"
-              autocomplete="off">
-            <template slot="append">Mhz</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Boost频率" prop="boostFrequency" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入Boost频率"
-              v-model.number="editForm.boostFrequency"
-              autocomplete="off">
-            <template slot="append">Mhz</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="显存速率" prop="gpuMemoryRate" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显存速率"
-              v-model.number="editForm.gpuMemoryRate"
-              autocomplete="off">
-            <template slot="append">Gbps</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="显存容量" prop="gpuMemorySize" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              :min="1"
-              :max="20"
-              placeholder="请输入显存容量"
-              v-model.number="editForm.gpuMemorySize"
-              autocomplete="off">
-            <template slot="append">MB</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="显卡制程" prop="gpuSize" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显卡制程"
-              v-model.number="editForm.gpuSize"
-              autocomplete="off">
-            <template slot="append">nm</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="核心面积" prop="gpuArea" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入核心面积"
-              v-model.number="editForm.gpuArea"
-              autocomplete="off">
-            <template slot="append">mm²</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="晶体管数量" prop="gpuTransistor" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入晶体管数量"
-              v-model.number="editForm.gpuTransistor"
-              autocomplete="off">
-            <template slot="append">M</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="参考价格" prop="gpuPrice" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入参考价格"
-              v-model.number="editForm.gpuPrice"
-              autocomplete="off">
-            <template slot="append">元</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="发布时间" prop="gpuDate" label-width="100px" :rules="[
+        <el-form-item label="主板类型" prop="mainboardType" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-
-          <el-date-picker
-              v-model="editForm.gpuDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择发布日期">
-          </el-date-picker>
-
-        </el-form-item>
-
-        <el-form-item label="GPU类型" prop="gpuType" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-    ]">
-          <el-select v-model="editForm.gpuType" filterable placeholder="请选择">
+          <el-select v-model="editForm.mainboardType" filterable placeholder="请选择">
             <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -386,16 +238,159 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="显卡评分" prop="gpuIndex" label-width="100px" :rules="[
+
+
+        <el-form-item label="支持wifi" prop="mainboardWifi" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardWifi" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardWifi" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="DDR代数" prop="mainboardMemoryDdr" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入评分"
-              v-model.number="editForm.gpuIndex"
+              placeholder="请输入DDR代数"
+              v-model.number="editForm.mainboardMemoryDdr"
               autocomplete="off">
-            <template slot="append">分</template>
+            <template slot="append">代</template>
           </el-input>
+        </el-form-item>
+
+
+
+        <el-form-item label="内存容量" prop="mainboardMaxMemorySize" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入最大内存容量"
+              v-model.number="editForm.mainboardMaxMemorySize"
+              autocomplete="off">
+            <template slot="append">GB</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="内存插槽" prop="mainboardMaxMemorySocket" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入内存插槽数"
+              v-model.number="editForm.mainboardMaxMemorySocket"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="物理规格" prop="mainboardSize" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入主板物理规格大小"
+              v-model.number="editForm.mainboardSize"
+              autocomplete="off">
+            <template slot="append">cm²</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="声卡声道" prop="mainboardChannelSound" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入板载声卡声道"
+              v-model.number="editForm.mainboardChannelSound"
+              autocomplete="off">
+            <template slot="append">声道</template>
+          </el-input>
+        </el-form-item>
+
+
+
+        <el-form-item label="SATA接口数" prop="mainboardSata" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入SATA接口数"
+              v-model.number="editForm.mainboardSata"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="PCIE接口数" prop="mainboardPcie" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入PCIE接口数"
+              v-model.number="editForm.mainboardPcie"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="支持Intel" prop="mainboardIntelSupport" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardIntelSupport" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardIntelSupport" :label="0">不支持</el-radio>
+        </el-form-item>
+
+        <el-form-item label="支持Ryzen" prop="mainboardRyzenSupport" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardRyzenSupport" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardRyzenSupport" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="参考价格" prop="mainboardPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入参考价格"
+              v-model.number="editForm.mainboardPrice"
+              autocomplete="off">
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="发布时间" prop="mainboardDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+
+          <el-date-picker
+              v-model="editForm.mainboardDate"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择发布日期">
+          </el-date-picker>
+
         </el-form-item>
 
       </el-form>
@@ -407,7 +402,7 @@
 
     <!--更新对话框-->
     <el-dialog
-        title="更新显卡"
+        title="更新主板"
         :visible.sync="updateVisible"
         width="600px"
         :append-to-body="true"
@@ -415,166 +410,15 @@
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="GPU型号" prop="gpuName" label-width="100px">
-          <el-input placeholder="请输入GPU型号" v-model="editForm.gpuName" autocomplete="off"></el-input>
-        </el-form-item>
-
-        <el-form-item label="显卡功耗" prop="gpuTdp" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显卡功耗"
-              v-model.number="editForm.gpuTdp"
-              autocomplete="off">
-            <template slot="append">W</template>
-          </el-input>
+        <el-form-item label="主板型号" prop="harddiskName" label-width="100px">
+          <el-input placeholder="请输入主板型号" v-model="editForm.mainboardName" autocomplete="off"></el-input>
         </el-form-item>
 
 
-
-        <el-form-item label="流处理器数" prop="gpuProcessor" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入流处理器数"
-              v-model.number="editForm.gpuProcessor"
-              autocomplete="off">
-            <template slot="append">个</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="GPU频率" prop="gpuFrequency" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入GPU频率"
-              v-model.number="editForm.gpuFrequency"
-              autocomplete="off">
-            <template slot="append">Mhz</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Boost频率" prop="boostFrequency" label-width="100px"
-                      :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入Boost频率"
-              v-model.number="editForm.boostFrequency"
-              autocomplete="off">
-            <template slot="append">Mhz</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="显存速率" prop="gpuMemoryRate" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显存速率"
-              v-model.number="editForm.gpuMemoryRate"
-              autocomplete="off">
-            <template slot="append">Gbps</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="显存容量" prop="gpuMemorySize" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              :min="1"
-              :max="20"
-              placeholder="请输入显存容量"
-              v-model.number="editForm.gpuMemorySize"
-              autocomplete="off">
-            <template slot="append">MB</template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item label="显卡制程" prop="gpuSize" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入显卡制程"
-              v-model.number="editForm.gpuSize"
-              autocomplete="off">
-            <template slot="append">nm</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="核心面积" prop="gpuArea" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入核心面积"
-              v-model.number="editForm.gpuArea"
-              autocomplete="off">
-            <template slot="append">mm²</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="晶体管数量" prop="gpuTransistor" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入晶体管数量"
-              v-model.number="editForm.gpuTransistor"
-              autocomplete="off">
-            <template slot="append">M</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="参考价格" prop="gpuPrice" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-      { type: 'number', message: '必须为数字值'}
-    ]">
-          <el-input
-              :controls="false"
-              placeholder="请输入参考价格"
-              v-model.number="editForm.gpuPrice"
-              autocomplete="off">
-            <template slot="append">元</template>
-          </el-input>
-        </el-form-item>
-
-
-        <el-form-item label="发布时间" prop="gpuDate" label-width="100px" :rules="[
+        <el-form-item label="主板类型" prop="mainboardType" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-
-          <el-date-picker
-              v-model="editForm.gpuDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择发布日期">
-          </el-date-picker>
-
-        </el-form-item>
-
-        <el-form-item label="GPU类型" prop="gpuType" label-width="100px" :rules="[
-      { required: true, message: '该字段不能为空'},
-    ]">
-          <el-select v-model="editForm.gpuType" filterable placeholder="请选择">
+          <el-select v-model="editForm.mainboardType" filterable placeholder="请选择">
             <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -583,19 +427,160 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="显卡评分" prop="gpuIndex" label-width="100px" :rules="[
+
+
+        <el-form-item label="支持wifi" prop="mainboardWifi" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardWifi" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardWifi" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="DDR代数" prop="mainboardMemoryDdr" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入评分"
-              v-model.number="editForm.gpuIndex"
+              placeholder="请输入DDR代数"
+              v-model.number="editForm.mainboardMemoryDdr"
               autocomplete="off">
-            <template slot="append">分</template>
+            <template slot="append">代</template>
           </el-input>
         </el-form-item>
 
 
+
+        <el-form-item label="内存容量" prop="mainboardMaxMemorySize" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入最大内存容量"
+              v-model.number="editForm.mainboardMaxMemorySize"
+              autocomplete="off">
+            <template slot="append">GB</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="内存插槽" prop="mainboardMaxMemorySocket" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入内存插槽数"
+              v-model.number="editForm.mainboardMaxMemorySocket"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="物理规格" prop="mainboardSize" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入主板物理规格大小"
+              v-model.number="editForm.mainboardSize"
+              autocomplete="off">
+            <template slot="append">cm²</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="声卡声道" prop="mainboardChannelSound" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入板载声卡声道"
+              v-model.number="editForm.mainboardChannelSound"
+              autocomplete="off">
+            <template slot="append">声道</template>
+          </el-input>
+        </el-form-item>
+
+
+
+        <el-form-item label="SATA接口数" prop="mainboardSata" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入SATA接口数"
+              v-model.number="editForm.mainboardSata"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="PCIE接口数" prop="mainboardPcie" label-width="100px"
+                      :rules="[
+      { required: true, message: '该字段不能为空'},
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入PCIE接口数"
+              v-model.number="editForm.mainboardPcie"
+              autocomplete="off">
+            <template slot="append">个</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="支持Intel" prop="mainboardIntelSupport" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardIntelSupport" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardIntelSupport" :label="0">不支持</el-radio>
+        </el-form-item>
+
+        <el-form-item label="支持Ryzen" prop="mainboardRyzenSupport" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.mainboardRyzenSupport" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.mainboardRyzenSupport" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="参考价格" prop="mainboardPrice" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+      { type: 'number', message: '必须为数字值'}
+    ]">
+          <el-input
+              :controls="false"
+              placeholder="请输入参考价格"
+              v-model.number="editForm.mainboardPrice"
+              autocomplete="off">
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="发布时间" prop="mainboardDate" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+
+          <el-date-picker
+              v-model="editForm.mainboardDate"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择发布日期">
+          </el-date-picker>
+
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editForm')">取 消</el-button>
@@ -609,8 +594,8 @@
 
 <script>
 export default {
-  name: "GPU",
-  title:"显卡信息管理",
+  name: "Mainboard",
+  title:"主板信息管理",
   data() {
     return {
       searchForm: {},
@@ -627,12 +612,16 @@ export default {
       },
       //选择框
       options: [{
-        value: 'AMD',
-        label: 'AMD'
+        value: 'ATX',
+        label: 'ATX'
       }, {
-        value: 'NVIDIA',
-        label: 'NVIDIA'
-      }
+        value: 'M-ATX',
+        label: 'M-ATX'
+      },
+        {
+          value: 'MINI-ITX',
+          label: 'MINI-ITX'
+        }
       ],
       value: '',
 
@@ -640,8 +629,8 @@ export default {
       tableData: [],
 
       editFormRules: {
-        gpuName: [
-          { required: true, message: '请输入GPU型号', trigger: 'change' }
+        mainboardName: [
+          { required: true, message: '请输入主板型号', trigger: 'change' }
         ]
 
 
@@ -662,7 +651,7 @@ export default {
 
   },
   created() {
-    this.getGpuList()
+    this.getMainBoardList()
 
   },
   methods: {
@@ -686,12 +675,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getGpuList()
+      this.getMainBoardList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getGpuList()
+      this.getMainBoardList()
     },
 
     resetForm(formName) {
@@ -708,10 +697,10 @@ export default {
       this.resetForm('editForm')
     },
 
-    getGpuList() {
-      this.$axios.get("/gpu-detail/list", {
+    getMainBoardList() {
+      this.$axios.get("/mainboard-detail/list", {
         params: {
-          gpuName: this.searchForm.gpuName,
+          mainboardName: this.searchForm.mainboardName,
           current: this.current,
           size: this.size
         }
@@ -726,7 +715,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/gpu-detail/save',this.editForm
+          this.$axios.post('/mainboard-detail/save',this.editForm
           )
               .then(res => {
                 this.$message({
@@ -734,7 +723,7 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getGpuList()
+                    this.getMainBoardList()
                   }
                 });
                 this.resetForm(formName)
@@ -750,7 +739,7 @@ export default {
     updateForm(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/gpu-detail/update',this.editForm)
+          this.$axios.post('/mainboard-detail/update',this.editForm)
               .then(res => {
 
                 this.$message({
@@ -758,7 +747,7 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getGpuList()
+                    this.getMainBoardList()
                   }
                 });
                 this.resetForm(formName)
@@ -773,7 +762,7 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/gpu-detail/getById/' + id).then(res => {
+      this.$axios.get('/mainboard-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
         this.updateVisible = true
       })
@@ -787,20 +776,20 @@ export default {
         ids.push(id)
       } else {
         this.multipleSelection.forEach(row => {
-          ids.push(row.gpuId)
+          ids.push(row.mainboardId)
         })
       }
 
       console.log(ids)
 
-      this.$axios.post("/gpu-detail/delete", ids).then(res => {
+      this.$axios.post("/mainboard-detail/delete", ids).then(res => {
         this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',
           type: 'success',
           onClose:() => {
-            this.getGpuList()
+            this.getMainBoardList()
           }
         });
       })

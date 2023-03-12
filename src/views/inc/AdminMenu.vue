@@ -48,6 +48,15 @@
         </el-menu-item>
       </router-link>
 
+      <router-link to="/ComputerList">
+        <el-menu-item index="ComputerList" @click="selectMenu({name:'ComputerList',title:'配置单管理'})">
+          <template slot="title">
+            <i class="el-icon-s-platform"></i>
+            <span slot="title">配置单管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
 
 
 
@@ -59,58 +68,75 @@
         <span>硬件管理</span>
       </template>
 
-      <router-link to="/sys/Gpu">
-        <el-menu-item index="SysGpu" @click="selectMenu({name:'SysGpu',title:'GPU信息管理'})">
+      <router-link to="/Cpu">
+        <el-menu-item index="Cpu" @click="selectMenu({name:'Cpu',title:'CPU信息管理'})">
           <template slot="title">
-            <i class="el-icon-edit"></i>
-            <span slot="title">GPU信息管理</span>
-          </template>
-        </el-menu-item>
-      </router-link>
-
-      <router-link to="/sys/Cpu">
-        <el-menu-item index="SysSet" @click="selectMenu({name:'SysCpu',title:'CPU信息管理'})">
-          <template slot="title">
-            <i class="el-icon-edit"></i>
+            <i class="el-icon-cpu"></i>
             <span slot="title">CPU信息管理</span>
           </template>
         </el-menu-item>
       </router-link>
 
-      <router-link to="/sys/Atx">
-        <el-menu-item index="SysAtx" @click="selectMenu({name:'SysAtx',title:'电源信息管理'})">
+
+
+      <router-link to="/Gpu">
+        <el-menu-item index="Gpu" @click="selectMenu({name:'Gpu',title:'GPU信息管理'})">
           <template slot="title">
-            <i class="el-icon-edit"></i>
+            <i class="el-icon-c-scale-to-original"></i>
+            <span slot="title">GPU信息管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+      <router-link to="/Harddisk">
+        <el-menu-item index="Harddisk" @click="selectMenu({name:'Harddisk',title:'硬盘信息管理'})">
+          <template slot="title">
+            <i class="el-icon-receiving"></i>
+            <span slot="title">硬盘信息管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+      <router-link to="/Mainboard">
+        <el-menu-item index="Mainboard" @click="selectMenu({name:'Mainboard',title:'主板信息管理'})">
+          <template slot="title">
+            <i class="el-icon-s-grid"></i>
+            <span slot="title">主板信息管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+      <router-link to="/Memory">
+        <el-menu-item index="Memory" @click="selectMenu({name:'Memory',title:'内存信息管理'})">
+          <template slot="title">
+            <i class="el-icon-wallet"></i>
+            <span slot="title">内存信息管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+      <router-link to="/Pccase">
+        <el-menu-item index="Pccase" @click="selectMenu({name:'Pccase',title:'机箱信息管理'})">
+          <template slot="title">
+            <i class="el-icon-mobile"></i>
+            <span slot="title">机箱信息管理</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+
+
+      <router-link to="/Power">
+        <el-menu-item index="Power" @click="selectMenu({name:'Power',title:'电源信息管理'})">
+          <template slot="title">
+            <i class="el-icon-odometer"></i>
             <span slot="title">电源信息管理</span>
           </template>
         </el-menu-item>
       </router-link>
 
-      <router-link to="/sys/Memory">
-        <el-menu-item index="SysMemory" @click="selectMenu({name:'SysMemory',title:'内存信息管理'})">
-          <template slot="title">
-            <i class="el-icon-edit"></i>
-            <span slot="title">内存信息管理</span>
-          </template>
-        </el-menu-item>
-      </router-link>
+
     </el-submenu>
 
-
-
-
-    <!--    <el-submenu  default-active="Index" :index="menu.name" v-for="menu in menuList">-->
-
-
-    <!--      <router-link :to="item.path" v-for="item in menu.children">-->
-    <!--        <el-menu-item :index="item.name" @click="selectMenu(item)">-->
-    <!--          <template slot="title">-->
-    <!--            <i :class="item.icon"></i>-->
-    <!--            <span slot="title">{{item.title}}</span>-->
-    <!--          </template>-->
-    <!--        </el-menu-item>-->
-    <!--      </router-link>-->
-    <!--    </el-submenu>-->
   </el-menu>
 
 

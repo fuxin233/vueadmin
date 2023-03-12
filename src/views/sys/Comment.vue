@@ -187,12 +187,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getUserList()
+      this.getCommentList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getUserList()
+      this.getCommentList()
     },
 
     resetForm(formName) {
@@ -230,6 +230,7 @@ export default {
         })
       }
       this.$axios.post("/comment-detail/delete", ids).then(res => {
+        this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',

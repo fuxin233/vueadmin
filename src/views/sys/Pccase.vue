@@ -3,14 +3,14 @@
     <el-form :inline="true">
       <el-form-item>
         <el-input
-            v-model="searchForm.memoryName"
-            placeholder="内存型号"
+            v-model="searchForm.pccaseName"
+            placeholder="机箱型号"
             clearable
         >
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getMemoryList">搜索</el-button>
+        <el-button @click="getPccaseList">搜索</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -23,7 +23,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="getMemoryList()">刷新</el-button>
+        <el-button type="primary" @click="getPccaseList()">刷新</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,8 +44,8 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="memoryName"
-          label="内存型号"
+          prop="pccaseName"
+          label="机箱型号"
           align="center"
           width="320"
           show-overflow-tooltip
@@ -54,62 +54,98 @@
 
 
       <el-table-column
-          prop="memoryDdr"
-          label="内存条DDR代数"
+          prop="pccaseWeight"
+          label="机箱重量"
           align="center">
         <template slot-scope="scope">
-          DDR{{scope.row.memoryDdr}}代
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          prop="memorySize"
-          label="内存容量"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.memorySize}}GB
-        </template>
-      </el-table-column>
-
-
-
-      <el-table-column
-          prop="memoryFrequency"
-          label="内存频率"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.memoryFrequency}}Mhz
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          prop="memoryType"
-          label="内存厂商"
-          align="center">
-        <template slot-scope="scope">
-          {{scope.row.memoryType}}
+          {{scope.row.pccaseWeight}}Kg
         </template>
       </el-table-column>
 
 
       <el-table-column
-          prop="memoryPrice"
+          prop="pccaseImg"
+          label="机箱照片"
+          align="center">
+        <template slot-scope="scope">
+          <el-image
+              style="width: 100px; height: 100px"
+              :src="scope.row.pccaseImg"
+              fit="fill">
+
+          </el-image>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column
+          prop="pccaseHarddiskPcie"
+          label="机箱固态硬盘位"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.pccaseHarddiskPcie}}个
+        </template>
+      </el-table-column>
+
+
+
+      <el-table-column
+          prop="pccaseHarddiskSata"
+          label="机箱机械硬盘位"
+          align="center">
+        <template slot-scope="scope">
+          {{scope.row.pccaseHarddiskSata}}个
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="pccaseSupportAtx"
+          label="机箱是否支持ATX"
+          align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" effect="dark" v-if="scope.row.pccaseSupportAtx==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.pccaseSupportAtx==0">不支持</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="pccaseSupportAtx"
+          label="机箱是否支持M-ATX"
+          align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" effect="dark" v-if="scope.row.pccaseSupportMAtx==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.pccaseSupportMAtx==0">不支持</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="pccaseSupportAtx"
+          label="机箱是否支持MINI-ATX"
+          align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" effect="dark" v-if="scope.row.pccaseSupportMiniAtx==1">支持</el-tag>
+          <el-tag type="warning" effect="dark" v-if="scope.row.pccaseSupportMiniAtx==0">不支持</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          prop="pccasePrice"
           label="参考价格"
           align="center">
         <template slot-scope="scope">
-          {{scope.row.memoryPrice}}元
+          {{scope.row.pccasePrice}}元
         </template>
       </el-table-column>
 
       <el-table-column
-          prop="memoryDate"
+          prop="pccaseDate"
           label="发布日期"
           align="center"
           width="250"
       >
         <template slot-scope="scope">
           <el-date-picker
-              v-model= "scope.row.memoryDate"
+              v-model= "scope.row.pccaseDate"
               type="date"
               readonly>
           </el-date-picker>
@@ -117,8 +153,8 @@
       </el-table-column>
 
       <el-table-column
-          prop="memoryHot"
-          label="内存条热度"
+          prop="pccaseHot"
+          label="机箱热度"
           align="center">
       </el-table-column>
 
@@ -130,11 +166,11 @@
 
         <template slot-scope="scope">
 
-          <el-button type="text" @click="editHandle(scope.row.memoryId)">编辑</el-button>
+          <el-button type="text" @click="editHandle(scope.row.pccaseId)">编辑</el-button>
           <el-divider direction="vertical"></el-divider>
 
           <template>
-            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.memoryId)">
+            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delHandle(scope.row.pccaseId)">
               <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
@@ -156,7 +192,7 @@
 
     <!--新增对话框-->
     <el-dialog
-        title="添加内存"
+        title="添加机箱"
         :visible.sync="saveVisible"
         width="700px"
         :append-to-body="true"
@@ -164,88 +200,116 @@
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="内存型号" prop="memoryName" label-width="100px">
-          <el-input placeholder="请输入内存型号" v-model="editForm.memoryName" autocomplete="off"></el-input>
+        <el-form-item label="机箱型号" prop="pccaseName" label-width="100px">
+          <el-input placeholder="请输入机箱型号" v-model="editForm.pccaseName" autocomplete="off"></el-input>
         </el-form-item>
 
 
-
-
-        <el-form-item label="DDR代数" prop="memoryDdr" label-width="100px"
+        <el-form-item label="机箱重量" prop="pccaseWeight" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入DDR代数"
-              v-model.number="editForm.memoryDdr"
+              placeholder="请输入机箱重量"
+              v-model.number="editForm.pccaseWeight"
               autocomplete="off">
-            <template slot="append">代</template>
+            <template slot="append">Kg</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="内存容量" prop="memorySize" label-width="100px"
+
+        <el-form-item label="机箱照片" prop="pccaseImg" label-width="100px">
+          <el-upload
+              class="avatar-uploader"
+              action="http://127.0.0.1:8081/pccase-detail/saveImg"
+              :show-file-list="false"
+              :multiple="false"
+              :on-success="handleImgSuccess"
+              :before-upload="beforeImgUpload"
+              name="file">
+            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" ></el-image>
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+
+
+
+        <el-form-item label="固态硬盘位" prop="pccaseHarddiskPcie" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存容量"
-              v-model.number="editForm.memorySize"
+              placeholder="请输入机箱固态硬盘位"
+              v-model.number="editForm.pccaseHarddiskPcie"
               autocomplete="off">
-            <template slot="append">GB</template>
+            <template slot="append">个</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="内存频率" prop="memoryFrequency" label-width="100px"
+        <el-form-item label="机械硬盘位" prop="pccaseHarddiskSata" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存频率"
-              v-model.number="editForm.memoryFrequency"
+              placeholder="请输入机箱机械硬盘位"
+              v-model.number="editForm.pccaseHarddiskSata"
               autocomplete="off">
-            <template slot="append">MHz</template>
+            <template slot="append">个</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="产商" prop="memoryType" label-width="100px"
-                      :rules="[
+
+        <el-form-item label="ATX" prop="pccaseSupportAtx" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-          <el-input
-              :controls="false"
-              placeholder="产商"
-              v-model.number="editForm.memoryType"
-              autocomplete="off">
-          </el-input>
+          <el-radio v-model="editForm.pccaseSupportAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportAtx" :label="0">不支持</el-radio>
         </el-form-item>
 
-        <el-form-item label="参考价格" prop="memoryPrice" label-width="100px" :rules="[
+
+        <el-form-item label="M-ATX" prop="pccaseSupportMAtx" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.pccaseSupportMAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportMAtx" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="MINI-ATX" prop="pccaseSupportMiniAtx" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.pccaseSupportMiniAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportMiniAtx" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="参考价格" prop="pccasePrice" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
               placeholder="请输入参考价格"
-              v-model.number="editForm.memoryPrice"
+              v-model.number="editForm.pccasePrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="memoryDate" label-width="100px" :rules="[
+        <el-form-item label="发布时间" prop="pccaseDate" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
 
           <el-date-picker
-              v-model="editForm.memoryDate"
+              v-model="editForm.pccaseDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
@@ -262,7 +326,7 @@
 
     <!--更新对话框-->
     <el-dialog
-        title="更新内存"
+        title="更新显卡"
         :visible.sync="updateVisible"
         width="600px"
         :append-to-body="true"
@@ -270,95 +334,122 @@
         :before-close="handleClose">
 
       <el-form :model="editForm" :rules="editFormRules" ref="editForm">
-        <el-form-item label="内存型号" prop="memoryName" label-width="100px">
-          <el-input placeholder="请输入内存型号" v-model="editForm.memoryName" autocomplete="off"></el-input>
+        <el-form-item label="机箱型号" prop="pccaseName" label-width="100px">
+          <el-input placeholder="请输入机箱型号" v-model="editForm.pccaseName" autocomplete="off"></el-input>
         </el-form-item>
 
 
-
-
-        <el-form-item label="DDR代数" prop="memoryDdr" label-width="100px"
+        <el-form-item label="机箱重量" prop="pccaseWeight" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入DDR代数"
-              v-model.number="editForm.memoryDdr"
+              placeholder="请输入机箱重量"
+              v-model.number="editForm.pccaseWeight"
               autocomplete="off">
-            <template slot="append">代</template>
+            <template slot="append">Kg</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="内存容量" prop="memorySize" label-width="100px"
+
+        <el-form-item label="机箱照片" prop="pccaseImg" label-width="100px">
+          <el-upload
+              class="avatar-uploader"
+              action="http://127.0.0.1:8081/pccase-detail/saveImg"
+              :show-file-list="false"
+              :multiple="false"
+              :on-success="handleImgSuccess"
+              :before-upload="beforeImgUpload"
+              name="file">
+            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" ></el-image>
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+
+
+
+        <el-form-item label="固态硬盘位" prop="pccaseHarddiskPcie" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存容量"
-              v-model.number="editForm.memorySize"
+              placeholder="请输入机箱固态硬盘位"
+              v-model.number="editForm.pccaseHarddiskPcie"
               autocomplete="off">
-            <template slot="append">GB</template>
+            <template slot="append">个</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="内存频率" prop="memoryFrequency" label-width="100px"
+        <el-form-item label="机械硬盘位" prop="pccaseHarddiskSata" label-width="100px"
                       :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
-              placeholder="请输入内存频率"
-              v-model.number="editForm.memoryFrequency"
+              placeholder="请输入机箱机械硬盘位"
+              v-model.number="editForm.pccaseHarddiskSata"
               autocomplete="off">
-            <template slot="append">MHz</template>
+            <template slot="append">个</template>
           </el-input>
         </el-form-item>
 
-        <el-form-item label="产商" prop="memoryType" label-width="100px"
-                      :rules="[
+
+        <el-form-item label="ATX" prop="pccaseSupportAtx" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
-          <el-input
-              :controls="false"
-              placeholder="产商"
-              v-model.number="editForm.memoryType"
-              autocomplete="off">
-          </el-input>
+          <el-radio v-model="editForm.pccaseSupportAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportAtx" :label="0">不支持</el-radio>
         </el-form-item>
 
-        <el-form-item label="参考价格" prop="memoryPrice" label-width="100px" :rules="[
+
+        <el-form-item label="M-ATX" prop="pccaseSupportMAtx" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.pccaseSupportMAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportMAtx" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="MINI-ATX" prop="pccaseSupportMiniAtx" label-width="100px" :rules="[
+      { required: true, message: '该字段不能为空'},
+    ]">
+          <el-radio v-model="editForm.pccaseSupportMiniAtx" :label="1">支持</el-radio>
+          <el-radio v-model="editForm.pccaseSupportMiniAtx" :label="0">不支持</el-radio>
+        </el-form-item>
+
+
+        <el-form-item label="参考价格" prop="pccasePrice" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
     ]">
           <el-input
               :controls="false"
               placeholder="请输入参考价格"
-              v-model.number="editForm.memoryPrice"
+              v-model.number="editForm.pccasePrice"
               autocomplete="off">
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
 
 
-        <el-form-item label="发布时间" prop="memoryDate" label-width="100px" :rules="[
+        <el-form-item label="发布时间" prop="pccaseDate" label-width="100px" :rules="[
       { required: true, message: '该字段不能为空'},
     ]">
 
           <el-date-picker
-              v-model="editForm.memoryDate"
+              v-model="editForm.pccaseDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择发布日期">
           </el-date-picker>
 
         </el-form-item>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editForm')">取 消</el-button>
@@ -372,8 +463,8 @@
 
 <script>
 export default {
-  name: "Memory",
-  title:"内存信息管理",
+  name: "Pccase",
+  title:"机箱信息管理",
   data() {
     return {
       searchForm: {},
@@ -384,9 +475,8 @@ export default {
 
       saveVisible: false,
       updateVisible: false,
-
       editForm: {
-
+        pccaseImg:''
       },
 
       value: '',
@@ -395,7 +485,7 @@ export default {
       tableData: [],
 
       editFormRules: {
-        memoryName: [
+        pccaseName: [
           { required: true, message: '请输入主板型号', trigger: 'change' }
         ]
 
@@ -409,14 +499,13 @@ export default {
         children: 'children',
         label: 'name'
       },
-      roleTreeData:  [],
       treeCheckedKeys: [],
       checkStrictly: true
     }
 
   },
   created() {
-    this.getMemoryList()
+    this.getPccaseList()
 
   },
   methods: {
@@ -440,19 +529,21 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.size = val
-      this.getMemoryList()
+      this.getPccaseList()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.current = val
-      this.getMemoryList()
+      this.getPccaseList()
     },
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.updateVisible = false
       this.saveVisible=false
-      this.editForm = {}
+      this.editForm = {
+        pccaseImg:''
+      }
       this.total = 0
       this.size = 10
       this.current = 1
@@ -462,10 +553,10 @@ export default {
       this.resetForm('editForm')
     },
 
-    getMemoryList() {
-      this.$axios.get("/memory-detail/list", {
+    getPccaseList() {
+      this.$axios.get("/pccase-detail/list", {
         params: {
-          memoryName: this.searchForm.memoryName,
+          pccaseName: this.searchForm.pccaseName,
           current: this.current,
           size: this.size
         }
@@ -480,7 +571,7 @@ export default {
     saveForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/memory-detail/save',this.editForm
+          this.$axios.post('/pccase-detail/save',this.editForm
           )
               .then(res => {
                 this.$message({
@@ -488,9 +579,10 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getMemoryList()
+                    this.getPccaseList()
                   }
                 });
+
                 this.resetForm(formName)
                 this.dialogVisible = false
               })
@@ -504,7 +596,7 @@ export default {
     updateForm(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios.post('/memory-detail/update',this.editForm)
+          this.$axios.post('/pccase-detail/update',this.editForm)
               .then(res => {
 
                 this.$message({
@@ -512,7 +604,7 @@ export default {
                   message: '恭喜你，操作成功',
                   type: 'success',
                   onClose:() => {
-                    this.getMemoryList()
+                    this.getPccaseList()
                   }
                 });
                 this.resetForm(formName)
@@ -527,38 +619,54 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/mainboard-detail/getById/' + id).then(res => {
+      this.$axios.get('/pccase-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
         this.updateVisible = true
       })
     },
 
     delHandle(id) {
-
       var ids = []
-
       if (id) {
         ids.push(id)
       } else {
         this.multipleSelection.forEach(row => {
-          ids.push(row.memoryId)
+          ids.push(row.pccaseId)
         })
       }
-
-      console.log(ids)
-
-      this.$axios.post("/memory-detail/delete", ids).then(res => {
+      this.$axios.post("/pccase-detail/delete", ids).then(res => {
         this.current = 1;
         this.$message({
           showClose: true,
           message: '恭喜你，操作成功',
           type: 'success',
           onClose:() => {
-            this.getMemoryList()
+            this.getPccaseList()
           }
         });
       })
     },
+    beforeImgUpload(file) {
+      // 设置限定格式
+      console.log(file)
+      const img_mimetype = ['image/jpeg', 'image/jpg', 'image/png']
+      const isJPG = img_mimetype.includes(file.type)
+      const isLt5M = file.size / 1024 / 1024 < 5
+      if (!isJPG) {
+        this.$message.error('上传头像只能是图片格式!')
+        return false
+      }
+      if (!isLt5M) {
+        this.$message.error('上传头像图片大小不能超过 5MB!')
+        return false
+      }
+      return isJPG && isLt5M
+    },
+    handleImgSuccess(res) {
+      // 把图片名给img
+      console.log(res.data.filePath)
+      this.editForm.pccaseImg = res.data.filePath
+    }
 
 
   }

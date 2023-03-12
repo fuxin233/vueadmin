@@ -9,8 +9,10 @@ import CPU from '../views/sys/CPU'
 import Power from '../views/sys/Power'
 import Memory from '../views/sys/Memory'
 import Comment from '../views/sys/Comment'
-
-
+import ComputerList from "../views/sys/ComputerList";
+import Harddisk from "../views/sys/Harddisk";
+import Mainboard from "../views/sys/Mainboard";
+import Pccase from "../views/sys/Pccase";
 
 Vue.use(VueRouter)
 
@@ -58,6 +60,14 @@ const routes = [
         }
       },
       {
+        path: '/ComputerList',
+        name: 'ComputerList',
+        component: ComputerList,
+        meta:{
+          title: "配置单管理"
+        }
+      },
+      {
         path: '/Gpu',
         name: 'Gpu',
         component: GPU,
@@ -74,11 +84,19 @@ const routes = [
         }
       },
       {
-        path: '/Power',
-        name: 'Power',
-        component: Power,
+        path: '/Harddisk',
+        name: 'Harddisk',
+        component: Harddisk,
         meta:{
-          title: "电源信息管理"
+          title: "硬盘信息管理"
+        }
+      },
+      {
+        path: '/Mainboard',
+        name: 'Mainboard',
+        component: Mainboard,
+        meta:{
+          title: "主板信息管理"
         }
       },
       {
@@ -88,7 +106,24 @@ const routes = [
         meta:{
           title: "内存信息管理"
         }
+      },
+      {
+        path: '/Pccase',
+        name: 'Pccase',
+        component: Pccase,
+        meta:{
+          title: "机箱信息管理"
+        }
+      },
+      {
+        path: '/Power',
+        name: 'Power',
+        component: Power,
+        meta:{
+          title: "电源信息管理"
+        }
       }
+
 
     ]
   },
