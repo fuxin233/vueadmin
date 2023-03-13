@@ -6,8 +6,8 @@
       text-color="white"
   >
 
-    <router-link to="/index">
-      <el-menu-item index="Index" @click="selectMenu({name:'Index',title:'首页'})">
+    <router-link to="/AdminIndex">
+      <el-menu-item index="AdminIndex" @click="selectMenu({name:'AdminIndex',title:'首页'})">
         <template slot="title">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>

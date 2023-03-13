@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import AdminHome from '../views/sys/AdminHome.vue'
 import User from '../views/sys/User'
 import Admin from '../views/sys/Article'
-import Index from '../views/index'
+import AdminIndex from '../views/sys/AdminIndex'
 import GPU from '../views/sys/GPU'
 import CPU from '../views/sys/CPU'
 import Power from '../views/sys/Power'
@@ -13,19 +13,22 @@ import ComputerList from "../views/sys/ComputerList";
 import Harddisk from "../views/sys/Harddisk";
 import Mainboard from "../views/sys/Mainboard";
 import Pccase from "../views/sys/Pccase";
+import UserLogin from "../views/external/UserLogin";
+import UserHome from "../views/external/UserHome";
+import UserIndex from "../views/external/UserIndex";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/AdminHome',
+    name: 'AdminHome',
+    component: AdminHome,
     children:[
       {
-        path: '/index',
-        name: 'Index',
-        component: Index
+        path: '/AdminIndex',
+        name: 'AdminIndex',
+        component: AdminIndex
       },
       {
         path: '/usersCenter',
@@ -127,16 +130,32 @@ const routes = [
 
     ]
   },
-
   {
-    path: '/login',
-    name: 'Login',
+    path: '/UserHome',
+    name: 'UserHome',
+    component: UserHome,
+    children:[
+      {
+        path: '/UserIndex',
+        name: 'UserIndex',
+        component: UserIndex
+      },
+    ]
+  },
+  {
+    path: '/AdminLogin',
+    name: 'AdminLogin',
 
-    component: () => import( '../views/Login')
+    component: () => import( '../views/sys/AdminLogin')
+  },
+  {
+    path: '/UserLogin',
+    name: 'UserLogin',
+    component : UserLogin
   },
   {
     path:'/',
-    redirect:'/login'　　//默认显示
+    redirect:'/AdminLogin'　　//默认显示
   }
 
 ]

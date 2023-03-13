@@ -66,12 +66,13 @@
       <el-table-column
           prop="pccaseImg"
           label="机箱照片"
-          align="center">
+          align="center"
+      width="170px">
         <template slot-scope="scope">
           <el-image
-              style="width: 100px; height: 100px"
+              style="width: 140px; height: 140px"
               :src="scope.row.pccaseImg"
-              fit="fill">
+              fit="contain">
 
           </el-image>
         </template>
@@ -162,7 +163,8 @@
           fixed="right"
           prop="icon"
           label="操作"
-          align="center">
+          align="center"
+          width="200">
 
         <template slot-scope="scope">
 
@@ -229,7 +231,7 @@
               :on-success="handleImgSuccess"
               :before-upload="beforeImgUpload"
               name="file">
-            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" ></el-image>
+            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" fit="contain"></el-image>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -363,7 +365,7 @@
               :on-success="handleImgSuccess"
               :before-upload="beforeImgUpload"
               name="file">
-            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" ></el-image>
+            <el-image v-if="editForm.pccaseImg" :src="editForm.pccaseImg" style="width: 100px;height: 100px" fit="contain"></el-image>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>

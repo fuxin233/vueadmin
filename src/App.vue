@@ -14,7 +14,7 @@ export default {
     $route(to, from) {
       console.log("to")
       console.log(to)
-      if (to.path != '/login') {
+      if (to.path != '/AdminLogin') {
         let obj = {
           name: to.name,
           title: to.meta.title

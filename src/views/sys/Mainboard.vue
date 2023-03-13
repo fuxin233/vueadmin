@@ -183,7 +183,8 @@
           fixed="right"
           prop="icon"
           label="操作"
-          align="center">
+          align="center"
+          width="200">
 
         <template slot-scope="scope">
 

@@ -44,12 +44,12 @@
 
 <script>
 
-import AdminMenu from "../views/inc/AdminMenu";
-import Tabs from "../views/inc/Tabs";
+import AdminMenu from "../inc/AdminMenu";
+import Tabs from "../inc/Tabs";
 import Clouds from 'vanta/src/vanta.clouds'
 import * as THREE from "three";
 export default {
-  name: "Home",
+  name: "AdminHome",
   components: {
     AdminMenu,
     Tabs
@@ -80,7 +80,7 @@ export default {
         sessionStorage.clear()
         this.$store.commit("resetState")
         ///跳转到登录页面
-        this.$router.push("/login")
+        this.$router.push("/AdminLogin")
       })
     }
   },
@@ -96,7 +96,7 @@ export default {
       minHeight: 200.00,
       minWidth: 200.00,
       skyColor: 0x608098,
-      speed: 2.00
+      speed: 1.00
     })
   },
   beforeDestroy() {

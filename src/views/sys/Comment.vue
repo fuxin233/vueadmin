@@ -93,7 +93,7 @@
 
       <el-table-column
           prop="icon"
-          width="260px"
+          width="100"
           label="操作"
           align="center">
         <template slot-scope="scope">

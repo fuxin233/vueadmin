@@ -25,17 +25,16 @@
 </template>
 
 <script>
-import SideMenu from "../views/inc/AdminMenu";
-import Home from "../views/Home";
+import AdminHome from "./AdminHome";
 //导入统计图插件
 import * as echarts from 'echarts';
 
 export default {
-  name: "Index",
-  components: {Home, SideMenu},
+  name: "AdminIndex",
+  components: {AdminHome},
   data() {
     return {
-      value: new Date(),
+
       userInfo: {
         id: "",
         adminName: ""

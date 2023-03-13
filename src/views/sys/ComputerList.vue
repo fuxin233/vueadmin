@@ -194,7 +194,7 @@
 
       <el-table-column
           prop="icon"
-          width="260px"
+          width="100px"
           label="操作"
           align="center"
           fixed="right">

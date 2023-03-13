@@ -129,7 +129,7 @@
 
       <el-table-column
           prop="icon"
-          width="260px"
+          width="200px"
           label="操作"
           align="center">
 
@@ -306,8 +306,6 @@ export default {
         email:[
           { required: true, message: '请输入邮箱', trigger: 'blur' },
         ],
-
-
       },
 
       multipleSelection: [],

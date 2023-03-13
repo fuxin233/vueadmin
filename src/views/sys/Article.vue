@@ -89,7 +89,8 @@
       <el-table-column
           prop="icon"
           align="center"
-          label="操作">
+          label="操作"
+      width="200">
 
         <template slot-scope="scope">
 

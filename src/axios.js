@@ -39,7 +39,7 @@ request.interceptors.response.use(response=>
         if(error.response.status ===401)/*无权限*/
        {
 
-            router.push("/login")
+            router.push("/UserLogin")
         }
 
         Element.Message.error(error.message,{duration:3000})

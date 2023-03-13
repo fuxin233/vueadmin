@@ -9,10 +9,10 @@ export default {
         permList: [],
         hasRoute: false,
         // 标签栏数据
-        editableTabsValue: 'Index',
+        editableTabsValue: 'AdminIndex',
         editableTabs: [{
             title: '首页',
-            name: 'Index',
+            name: 'AdminIndex',
 
         }
         ],
@@ -49,10 +49,10 @@ export default {
             state.menuList=[]
             state.permList=[]
             state.hasRoute=false
-            state.editableTabsValue='Index'
+            state.editableTabsValue='AdminIndex'
             state. editableTabs= [{
                 title: '首页',
-                name: 'Index',
+                name: 'AdminIndex',
 
             }]
         }

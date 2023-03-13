@@ -64,7 +64,7 @@
 import * as THREE from 'three'
 import Net from 'vanta/src/vanta.net'
 export default {
-  name: "Login",
+  name: "AdminLogin",
   data() {
     return {
       loginForm: {
@@ -97,7 +97,7 @@ export default {
           this.$axios.post('/login?',this.loginForm).then(res=>{
             const  jwt = res.headers['authorization']
             this.$store.commit('SET_TOKEN',jwt)
-            this.$router.push("/index")
+            this.$router.push("/AdminIndex")
           })
         } else {
           this.getCaptcha();
@@ -160,7 +160,6 @@ export default {
 }
 
 .bg{
-  /*background-image: url("../assets/loginBackground.png");*/
   background-size:100% 100%;
   background-repeat: no-repeat;
   position: absolute;

@@ -120,7 +120,7 @@ export default {
 
         this.$store.commit("resetState")
         ///跳转到登录页面
-        this.$router.push("/login")
+        this.$router.push("/AdminLogin")
       })
     },
     submitForm(formName) {
