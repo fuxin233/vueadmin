@@ -212,7 +212,7 @@ export default {
           this.$axios.post('/login?',this.loginForm).then(res=>{
             const  jwt = res.headers['authorization']
             this.$store.commit('SET_TOKEN',jwt)
-            this.$router.push("/AdminIndex")
+            this.$router.push("/UserIndex")
           })
         } else {
           this.getCaptcha();
@@ -317,8 +317,6 @@ export default {
   0 0  0 2px rgb(190, 190, 190),
   0.3em 0.3em 1em rgba(0,0,0,0.3);
 }
-
-
 
 
 .lizi{

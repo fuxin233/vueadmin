@@ -155,7 +155,7 @@ const routes = [
   },
   {
     path:'/',
-    redirect:'/AdminLogin'　　//默认显示
+    redirect:'/UserLogin'　　//默认显示
   }
 
 ]

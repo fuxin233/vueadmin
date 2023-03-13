@@ -6,13 +6,24 @@
       </el-aside>
 
     <el-container>
-        <el-header >
+        <el-header style="position: absolute;right: 0;">
 
           <div class="header-avatar">
-            <el-avatar size="medium" :src= this.userInfo.avatar></el-avatar>
+            <div class="group">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+              <input placeholder="查找相关新闻" type="search" class="input">
+            </div>
+
+            <button class="shadow__btn">
+              搜索
+            </button>
+
+
+            <el-avatar size="medium" :src= this.userInfo.avatar style="margin-left: 50px;" >
+            </el-avatar>
             <el-dropdown :hide-on-click="false">
-          <span class="el-dropdown-link" style="color: white">
-           {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+          <span class="el-dropdown-link" style="color: white;margin-left: 50px;">
+           您好，{{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
            </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
@@ -23,17 +34,20 @@
 
               </el-dropdown-menu>
             </el-dropdown>
-            <el-link href="https://www.baidu.com/" style="color: white">百度</el-link>
-            <el-link @click="$router.push('/AdminLogin')" style="color: white">管理员端</el-link>
+            <el-link href="https://www.baidu.com/" style="color: white;margin-left: 50px;">百度</el-link>
+            <el-link @click="$router.push('/AdminLogin')" style="color: white;margin-left: 50px;">管理员端</el-link>
           </div>
         </el-header>
 
-        <el-main>
-          <div style="margin: 0 15px;">
+        <el-main style="margin-top: 100px;display: flex;max-height: 1000px">
+
             <router-view></router-view>
-          </div>
+
         </el-main>
       </el-container>
+      <el-aside width="200px" class="leftSide">
+
+      </el-aside>
     </el-container>
   </div>
 
@@ -75,7 +89,7 @@ export default {
         sessionStorage.clear()
         this.$store.commit("resetState")
         ///跳转到登录页面
-        this.$router.push("/AdminLogin")
+        this.$router.push("/UserLogin")
       })
     }
   },
@@ -106,6 +120,13 @@ export default {
 
 <style scoped>
 
+
+::-webkit-scrollbar {
+  width: 0;      /* Safari,Chrome 隐藏滚动条 */
+  height: 0;     /* Safari,Chrome 隐藏滚动条 */
+  display: none; /* 移动端、pad 上Safari，Chrome，隐藏滚动条 */
+}
+
 .bg{
   /*background-image: url("../assets/loginBackground.png");*/
   background-size:100% 100%;
@@ -123,14 +144,15 @@ export default {
 .el-container{
   padding: 0;
   margin: 0;
-  height: 70vh;
+  bottom: 0;
+  height: 95%;
 }
 
 .header-avatar{
   float: right;
-  width: 400px;
+  width: 800px;
+  margin-right: 0px;
   display:flex;
-  justify-content: space-around;
   align-items: center;
 }
 
@@ -145,9 +167,8 @@ export default {
 }
 
 .leftSide {
-
+  transform:translateY(60px);
   text-align: left;
-
 }
 
 .rightSide {
@@ -157,7 +178,6 @@ export default {
 }
 
 .el-main {
-
   color: #333;
   text-align: left;
   padding:0;
@@ -166,6 +186,70 @@ export default {
 a{
   text-decoration: none;
 }
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+}
 
+.input {
+  width: 100%;
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: .3s ease;
+}
+
+.input::placeholder {
+  color: #9e9ea7;
+}
+
+.input:focus, input:hover {
+  outline: none;
+  border-color: rgba(234,76,137,0.4);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.icon {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
+}
+.shadow__btn {
+  padding: 10px 20px;
+  border: none;
+  font-size: 17px;
+  color: #fff;
+  border-radius: 7px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+}
+
+.shadow__btn {
+  background: rgb(0,140,255);
+  box-shadow: 0 0 25px rgb(0,140,255);
+  margin-left: 5px;
+}
+
+.shadow__btn:hover {
+  box-shadow: 0 0 5px rgb(0,140,255),
+  0 0 25px rgb(0,140,255),
+  0 0 50px rgb(0,140,255),
+  0 0 100px rgb(0,140,255);
+}
 
 </style>
