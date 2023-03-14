@@ -40,7 +40,7 @@
           </div>
         </el-header>
 
-        <el-main style="margin-top: 100px;display: flex;max-height: 900px;border: 3px solid white;border-radius: 30px;background-color: rgba(255,255,255,0.2);">
+        <el-main style="margin-top: 100px;display: flex;max-height: 900px;border: 3px solid white;border-radius: 30px;background-color: rgba(0,0,0,0.3);">
 
             <router-view></router-view>
 
@@ -117,7 +117,7 @@
       </button>
 
 
-      <button type="button" class="btn" >
+      <button type="button" class="btn" @click="$router.push('/UserPccase')">
         <strong><i class="el-icon-mobile"></i>机箱列表</strong>
         <div class="container-stars">
           <div class="stars"></div>

@@ -22,7 +22,7 @@ import UserHarddisk from "../views/external/UserHarddisk";
 import UserMainboard from "../views/external/UserMainboard";
 import UserMemory from "../views/external/UserMemory";
 import UserPower from "../views/external/UserPower";
-
+import UserPccase from "../views/external/UserPccase";
 Vue.use(VueRouter)
 
 const routes = [
@@ -170,6 +170,11 @@ const routes = [
         path: '/UserMemory',
         name: 'UserMemory',
         component: UserMemory
+      },
+      {
+        path: '/UserPccase',
+        name: 'UserPccase',
+        component: UserPccase
       },
       {
         path: '/UserPower',
