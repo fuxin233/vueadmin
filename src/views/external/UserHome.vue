@@ -1,11 +1,13 @@
 <template>
   <div class="bg" ref="vantaRef">
     <el-container>
-      <el-aside width="200px" class="leftSide">
 
+
+      <el-aside class="leftSide">
+        <EchartsComponent01></EchartsComponent01>
       </el-aside>
 
-    <el-container>
+    <el-container style="height: 100%;width: 100%">
         <el-header style="position: absolute;right: 0;">
 
           <div class="header-avatar">
@@ -13,16 +15,15 @@
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
               <input placeholder="查找相关新闻" type="search" class="input">
             </div>
-
             <button class="shadow__btn">
               搜索
             </button>
 
 
-            <el-avatar size="medium" :src= this.userInfo.avatar style="margin-left: 50px;" >
+            <el-avatar size="medium" :src= this.userInfo.avatar style="margin-left: 100px;" >
             </el-avatar>
             <el-dropdown :hide-on-click="false">
-          <span class="el-dropdown-link" style="color: white;margin-left: 50px;">
+          <span class="el-dropdown-link" style="color: white;margin-left: 10px;">
            您好，{{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
            </span>
               <el-dropdown-menu slot="dropdown">
@@ -39,16 +40,107 @@
           </div>
         </el-header>
 
-        <el-main style="margin-top: 100px;display: flex;max-height: 1000px">
+        <el-main style="margin-top: 100px;display: flex;max-height: 900px;border: 3px solid white;border-radius: 30px;background-color: rgba(255,255,255,0.2);">
 
             <router-view></router-view>
 
         </el-main>
       </el-container>
-      <el-aside width="200px" class="leftSide">
-
+      <el-aside width="200px" class="rightSide">
+          <echarts-component02></echarts-component02>
       </el-aside>
     </el-container>
+    <div style="display: flex;
+        justify-content:center;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-top: 10px;">
+
+
+    <button type="button" class="btn" @click="$router.push('/UserIndex')">
+      <strong><i class="el-icon-c-scale-to-original"></i>显卡排行</strong>
+      <div class="container-stars">
+        <div class="stars"></div>
+      </div>
+      <div class="glow">
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+    </button>
+
+
+      <button type="button" class="btn" @click="$router.push('/UserCpuSingle')">
+        <strong><i class="el-icon-cpu"></i>CPU排行</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
+      <button type="button" class="btn" @click="$router.push('/UserHarddisk')">
+        <strong><i class="el-icon-receiving"></i>硬盘列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
+      <button type="button" class="btn" @click="$router.push('/UserMainboard')">
+        <strong><i class="el-icon-s-grid"></i>主板列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
+      <button type="button" class="btn" @click="$router.push('/UserMemory')">
+        <strong><i class="el-icon-wallet"></i>内存列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
+      <button type="button" class="btn" >
+        <strong><i class="el-icon-mobile"></i>机箱列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
+      <button type="button" class="btn" @click="$router.push('/UserPower')">
+        <strong><i class="el-icon-odometer"></i>电源列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+    </div>
   </div>
 
 
@@ -58,10 +150,13 @@
 
 import HALO from 'vanta/src/vanta.halo'
 import * as THREE from "three";
-import * as echarts from 'echarts';
+import EchartsComponent01 from "../inc/EchartsComponent01";
+import EchartsComponent02 from "../inc/EchartsComponent02";
 export default {
   name: "UserHome",
   components: {
+    EchartsComponent01,
+    EchartsComponent02
   },
   data(){
     return{
@@ -145,15 +240,15 @@ export default {
   padding: 0;
   margin: 0;
   bottom: 0;
-  height: 95%;
+  height: 92%;
 }
 
 .header-avatar{
-  float: right;
-  width: 800px;
+  width: 100%;
   margin-right: 0px;
   display:flex;
   align-items: center;
+  position: center;
 }
 
 .el-dropdown-link {
@@ -167,14 +262,17 @@ export default {
 }
 
 .leftSide {
-  transform:translateY(60px);
   text-align: left;
+  max-height: 100%;
+  min-width: 300px;
+  margin-right: 10px;
 }
 
 .rightSide {
-
+  transform:translateY(60px);
   text-align: right;
-
+  min-height: 800px;
+  min-width: 300px;
 }
 
 .el-main {
@@ -192,6 +290,7 @@ a{
   align-items: center;
   position: relative;
   max-width: 190px;
+  margin-top: 5px;
 }
 
 .input {
@@ -237,6 +336,7 @@ a{
   text-transform: uppercase;
   transition: 0.5s;
   transition-property: box-shadow;
+  margin-top: 5px;
 }
 
 .shadow__btn {
@@ -251,5 +351,172 @@ a{
   0 0 50px rgb(0,140,255),
   0 0 100px rgb(0,140,255);
 }
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  height: 3rem;
+  background-size: 300% 300%;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
+  transition: 0.5s;
+  animation: gradient_301 5s ease infinite;
+  border: double 4px transparent;
+  background-image: linear-gradient(#212121, #212121),  linear-gradient(137.48deg, #ffdb3b 10%,#FE53BB 45%, #8F51EA 67%, #0044ff 87%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin-left: 40px;
+}
 
+.container-stars {
+  position: fixed;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: 0.5s;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
+}
+
+strong {
+  z-index: 2;
+  font-family: 'Avalors Personal Use';
+  font-size: 16px;
+  letter-spacing: 5px;
+  color: #FFFFFF;
+  text-shadow: 0 0 4px white;
+}
+
+.glow {
+  position: absolute;
+  display: flex;
+  width: 12rem;
+}
+
+.circle {
+  width: 100%;
+  height: 30px;
+  filter: blur(2rem);
+  animation: pulse_3011 4s infinite;
+  z-index: -1;
+}
+
+.circle:nth-of-type(1) {
+  background: rgba(254, 83, 186, 0.636);
+}
+
+.circle:nth-of-type(2) {
+  background: rgba(142, 81, 234, 0.704);
+}
+
+.btn:hover .container-stars {
+  z-index: 1;
+  background-color: #212121;
+}
+
+.btn:hover {
+  transform: scale(1.1)
+}
+
+.btn:active {
+  border: double 4px #FE53BB;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  animation: none;
+}
+
+.btn:active .circle {
+  background: #FE53BB;
+}
+
+.stars {
+  position: relative;
+  background: transparent;
+  width: 200rem;
+  height: 200rem;
+}
+
+.stars::after {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  left: -100rem;
+  width: 100%;
+  height: 100%;
+  animation: animStarRotate 90s linear infinite;
+}
+
+.stars::after {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+}
+
+.stars::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 170%;
+  height: 500%;
+  animation: animStar 60s linear infinite;
+}
+
+.stars::before {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+  opacity: 0.5;
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-135rem);
+  }
+}
+
+@keyframes animStarRotate {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes gradient_301 {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse_3011 {
+  0% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
 </style>

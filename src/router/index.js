@@ -16,6 +16,12 @@ import Pccase from "../views/sys/Pccase";
 import UserLogin from "../views/external/UserLogin";
 import UserHome from "../views/external/UserHome";
 import UserIndex from "../views/external/UserIndex";
+import UserCpuSingle from "../views/external/UserCpuSingle";
+import UserCpuMulti from "../views/external/UserCpuMulti";
+import UserHarddisk from "../views/external/UserHarddisk";
+import UserMainboard from "../views/external/UserMainboard";
+import UserMemory from "../views/external/UserMemory";
+import UserPower from "../views/external/UserPower";
 
 Vue.use(VueRouter)
 
@@ -139,6 +145,36 @@ const routes = [
         path: '/UserIndex',
         name: 'UserIndex',
         component: UserIndex
+      },
+      {
+        path: '/UserCpuSingle',
+        name: 'UserCpuSingle',
+        component: UserCpuSingle
+      },
+      {
+        path: '/UserCpuMulti',
+        name: 'UserCpuMulti',
+        component: UserCpuMulti
+      },
+      {
+        path: '/UserHarddisk',
+        name: 'UserHarddisk',
+        component: UserHarddisk
+      },
+      {
+        path: '/UserMainboard',
+        name: 'UserMainboard',
+        component: UserMainboard
+      },
+      {
+        path: '/UserMemory',
+        name: 'UserMemory',
+        component: UserMemory
+      },
+      {
+        path: '/UserPower',
+        name: 'UserPower',
+        component: UserPower
       },
     ]
   },

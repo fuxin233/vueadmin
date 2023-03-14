@@ -2,7 +2,7 @@
 
   <div class="bg" ref="vantaRef">
 
-    <button type="button" class="back" @click="$router.push('/AdminLogin')">
+    <button type="button" class="back" @click="$router.push('/UserIndex')">
       <strong>回 到 首 页</strong>
       <div id="container-stars">
         <div id="stars"></div>

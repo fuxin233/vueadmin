@@ -34,7 +34,6 @@ export default {
   components: {AdminHome},
   data() {
     return {
-
       userInfo: {
         id: "",
         adminName: ""
