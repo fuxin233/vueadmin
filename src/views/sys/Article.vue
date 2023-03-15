@@ -162,13 +162,13 @@
           <el-input placeholder="请输入标题" v-model="editForm.title" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="内容" prop="content" label-width="100px" style="height: 700px">
+        <el-form-item label="内容" prop="content" label-width="100px" style="height: 100%">
           <div class="ql-container ql-snow">
             <div class="ql-editor" v-html="editForm.content"></div>
           </div>
         </el-form-item>
 
-        <el-form-item label="文章状态" prop="locked" label-width="100px" style="height: 700px">
+        <el-form-item label="文章状态" prop="locked" label-width="100px" style="margin-top: 22px;">
           <el-radio v-model="editForm.locked" :label="1">可见</el-radio>
           <el-radio v-model="editForm.locked" :label="0">不可见</el-radio>
         </el-form-item>
@@ -398,9 +398,8 @@ export default {
   margin-top: 22px;
 }
 .dialog-footer{
-  position:absolute;
-  bottom:10px;
-  right: 10px;
+  float: right;
+  margin-top: 22px;
 }
 
 </style>

@@ -3,7 +3,7 @@
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
         <span style="float: left;color: white;">最新新闻</span>
-        <el-button style="float: right; padding: 3px 0" type="text">了解更多</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="$router.push('/UserArticle')">了解更多</el-button>
       </div>
       <div v-for="item in tableData" class="text item">
         <strong STYLE="float: left">{{item.userName}} : {{item.title}}</strong>

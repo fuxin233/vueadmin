@@ -23,6 +23,10 @@ import UserMainboard from "../views/external/UserMainboard";
 import UserMemory from "../views/external/UserMemory";
 import UserPower from "../views/external/UserPower";
 import UserPccase from "../views/external/UserPccase";
+import ArticleHome from "../views/external/ArticleHome";
+import UserArticle from "../views/external/UserArticle";
+import ArticleDetail from "../views/external/ArticleDetail";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -180,6 +184,23 @@ const routes = [
         path: '/UserPower',
         name: 'UserPower',
         component: UserPower
+      },
+    ]
+  },
+  {
+    path: '/ArticleHome',
+    name: 'ArticleHome',
+    component: ArticleHome,
+    children:[
+      {
+        path: '/UserArticle',
+        name: 'UserArticle',
+        component: UserArticle
+      },
+      {
+        path: '/ArticleDetail',
+        name: 'ArticleDetail',
+        component: ArticleDetail
       },
     ]
   },

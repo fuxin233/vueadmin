@@ -13,7 +13,7 @@
 
           <el-dropdown :hide-on-click="false">
           <span class="el-dropdown-link">
-           {{userInfo.name+'管理员'}}<i class="el-icon-arrow-down el-icon--right"></i>
+           {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
            </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
@@ -135,7 +135,7 @@ export default {
 
 .header-avatar{
   float: right;
-  width: 210px;
+  width: 300px;
   display:flex;
   justify-content: space-around;
   align-items: center;

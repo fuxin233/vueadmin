@@ -114,13 +114,6 @@ export default {
     out(){
       this.insides = false
     },
-    scrolling() {
-      let scrollTop =
-          document.documentElement.scrollTop ||
-          document.body.scrollTop;
-      console.log("header 滚动距离 ", scrollTop);
-      this.scrollIndex = scrollTop;
-    },
   }
 }
 </script>
