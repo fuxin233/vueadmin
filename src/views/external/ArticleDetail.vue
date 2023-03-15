@@ -114,7 +114,7 @@ export default {
 <style scoped>
 
 .comments{
-  height: 120px;
+  height: 200px;
   margin-top: 2px;
   overflow :auto;
 

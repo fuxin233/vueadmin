@@ -17,7 +17,7 @@
            </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <router-link :to="{name:'UserCenter'}">个人中心</router-link>
+                <router-link :to="{name:'AdminCenter'}">个人中心</router-link>
               </el-dropdown-item>
               <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
 

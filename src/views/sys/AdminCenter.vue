@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  name: "UserCenter",
+  name: "AdminCenter",
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {

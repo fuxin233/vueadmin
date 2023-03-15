@@ -26,7 +26,7 @@ import UserPccase from "../views/external/UserPccase";
 import ArticleHome from "../views/external/ArticleHome";
 import UserArticle from "../views/external/UserArticle";
 import ArticleDetail from "../views/external/ArticleDetail";
-
+import UserCenter from "../views/external/UserCenter";
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,12 +41,12 @@ const routes = [
         component: AdminIndex
       },
       {
-        path: '/usersCenter',
-        name: 'UserCenter',
+        path: '/AdminCenter',
+        name: 'AdminCenter',
         meta: {
           title:"个人中心"
         },
-        component: () => import('@/views/UserCenter')
+        component: () => import('@/views/sys/AdminCenter')
       },
       {
         path: '/User',
@@ -185,6 +185,7 @@ const routes = [
         name: 'UserPower',
         component: UserPower
       },
+
     ]
   },
   {
@@ -202,6 +203,11 @@ const routes = [
         name: 'ArticleDetail',
         component: ArticleDetail
       },
+      {
+        path: '/UserCenter',
+        name: 'UserCenter',
+        component: UserCenter
+      }
     ]
   },
   {
