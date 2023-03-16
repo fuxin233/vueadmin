@@ -54,11 +54,9 @@
                :append-to-body="true"
                :center="true"
     >
-      <el-form :model="computerList" ref="computerList">
+      <el-form :model="computerList" ref="computerList" >
 
-        <el-form-item label="显卡：" :rules="[
-      { required: true, message: '该字段不能为空',trigger:'blur'}
-        ]">
+        <el-form-item label="显卡：" prop="gpuName" :rules="[{required: true, message: '请选择显卡'}]">
 
           <el-select v-model="computerList.gpuName" filterable :clearable="true" placeholder="请选择你的显卡" size="medium">
             <el-option
@@ -70,8 +68,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="CPU：" :rules="[
-      { required: true, message: '该字段不能为空'}
+        <el-form-item label="CPU：" prop="cpuName" :rules="[
+      { required: true, message: '请选择CPU'}
         ]">
 
           <el-select v-model="computerList.cpuName" filterable :clearable="true" placeholder="请选择你的CPU" size="medium">
@@ -84,8 +82,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="主板：" :rules="[
-      { required: true, message: '该字段不能为空'}
+        <el-form-item label="主板：" prop="mainboardName" :rules="[
+      { required: true, message: '请选择主板'}
         ]">
 
           <el-select v-model="computerList.mainboardName" filterable :clearable="true" placeholder="请选择你的主板" size="medium">
@@ -98,8 +96,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="机箱：" :rules="[
-      { required: true, message: '该字段不能为空'}
+        <el-form-item label="机箱：" prop="pccaseName" :rules="[
+      { required: true, message: '请选择机箱'}
         ]">
 
           <el-select v-model="computerList.pccaseName" filterable :clearable="true" placeholder="请选择你的机箱" size="medium">
@@ -112,8 +110,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="内存：" :rules="[
-      { required: true, message: '该字段不能为空'}
+        <el-form-item label="内存：" prop="memoryName" :rules="[
+      { required: true, message: '请选择内存'}
         ]">
 
           <el-select v-model="computerList.memoryName" filterable :clearable="true" placeholder="请选择你的内存" size="medium">
@@ -126,22 +124,14 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="数量：" :rules="[
+        <el-form-item label="数量：" prop="memoryNumber" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
         ]">
-
-          <el-select v-model="computerList.memoryNumber" filterable :clearable="true" placeholder="请选择数量" size="medium">
-            <el-option
-                v-for="item in memoryNum"
-                :key="item"
-                :label="item+' 个'"
-                :value="item">
-            </el-option>
-          </el-select>
+          <el-input-number v-model="computerList.memoryNumber" :min="1" :max="4"></el-input-number>
         </el-form-item>
 
-        <el-form-item label="机械：" :rules="[
+        <el-form-item label="机械："  :rules="[
       { required: true, message: '该字段不能为空'}
         ]">
 
@@ -155,19 +145,11 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="数量：" :rules="[
+        <el-form-item label="数量：" prop="mechHarddiskNumber" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
         ]">
-
-          <el-select v-model="computerList.mechHarddiskNumber" filterable :clearable="true" placeholder="请选择数量" size="medium">
-            <el-option
-                v-for="item in harddiskNum"
-                :key="item"
-                :label="item+' 个'"
-                :value="item">
-            </el-option>
-          </el-select>
+          <el-input-number v-model="computerList.mechHarddiskNumber" :min="0" :max="6"></el-input-number>
         </el-form-item>
 
         <el-form-item label="固态：" :rules="[
@@ -184,23 +166,15 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="数量：" :rules="[
+        <el-form-item label="数量：" prop="ssdHarddiskNumber" :rules="[
       { required: true, message: '该字段不能为空'},
       { type: 'number', message: '必须为数字值'}
         ]">
-
-          <el-select v-model="computerList.ssdHarddiskNumber" filterable :clearable="true" placeholder="请选择数量" size="medium">
-            <el-option
-                v-for="item in harddiskNum"
-                :key="item"
-                :label="item+' 个'"
-                :value="item">
-            </el-option>
-          </el-select>
+          <el-input-number v-model="computerList.ssdHarddiskNumber" :min="0" :max="6"></el-input-number>
         </el-form-item>
 
-        <el-form-item label="电源：" :rules="[
-      { required: true, message: '该字段不能为空'}
+        <el-form-item label="电源：" prop="powerName" :rules="[
+      { required: true, message: '请选择电源'}
         ]">
 
           <el-select v-model="computerList.powerName" filterable :clearable="true" placeholder="请选择你的电源" size="medium">
@@ -267,10 +241,8 @@ export default {
       mainBoardList:[],
       pccaseList:[],
       memoryList:[],
-      memoryNum:[1,2,3,4],
       mechList:[],
       ssdList:[],
-      harddiskNum:[0,1,2,3,4,5,6],
       powerList:[],
       dialogFormVisible: false,
 

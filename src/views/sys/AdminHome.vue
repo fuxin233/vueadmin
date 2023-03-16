@@ -24,8 +24,8 @@
             </el-dropdown-menu>
           </el-dropdown>
 
-          <el-link href="https://www.baidu.com/" target="_blank">百度</el-link>
-          <el-link href="https://www.bilibili.com/" target="_blank">B站</el-link>
+          <el-link href="https://www.baidu.com/" target="_blank">百 度</el-link>
+          <el-link @click="$router.push('/UserIndex')" target="_blank">主 站</el-link>
         </div>
       </el-header>
 
