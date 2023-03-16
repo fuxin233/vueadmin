@@ -27,6 +27,7 @@ import ArticleHome from "../views/external/ArticleHome";
 import UserArticle from "../views/external/UserArticle";
 import ArticleDetail from "../views/external/ArticleDetail";
 import UserCenter from "../views/external/UserCenter";
+import Assembling from "../views/external/Assembling";
 Vue.use(VueRouter)
 
 const routes = [
@@ -207,7 +208,8 @@ const routes = [
         path: '/UserCenter',
         name: 'UserCenter',
         component: UserCenter
-      }
+      },
+
     ]
   },
   {
@@ -220,6 +222,11 @@ const routes = [
     path: '/UserLogin',
     name: 'UserLogin',
     component : UserLogin
+  },
+  {
+    path: '/Assembling',
+    name: 'Assembling',
+    component: Assembling
   },
   {
     path:'/',

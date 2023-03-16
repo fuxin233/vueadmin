@@ -37,7 +37,7 @@ export default {
         }
         else
         {
-          this.$router.push('/UserIndex')
+          this.$router.push('/Assembling')
         }
     }
   },
