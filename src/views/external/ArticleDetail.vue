@@ -1,13 +1,11 @@
 <template>
-<div style="background-color: rgba(255,255,255,1);width: 100%">
+<div style="width: 100%">
   <div style="font-size: 25px;"><strong>{{tableData.title}}</strong></div>
   <div>By - {{tableData.userName}}</div>
   <div>{{tableData.created}}</div>
   <div class="ql-container ql-snow" style="height:70%;">
     <div class="ql-editor" v-html="tableData.content" ></div>
   </div>
-
-
 
   <div style="height: 110px;overflow :auto;">
     <div>

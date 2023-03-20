@@ -1,10 +1,8 @@
 <template>
-  <div class="bg" ref="vantaRef">
+  <div class="bg">
 
       <el-container style="height: 100%;width: 100%">
         <el-header>
-
-
           <button type="button" class="back" @click="$router.push('/UserIndex')">
             <strong>回 到 首 页</strong>
             <div id="container-stars">
@@ -16,8 +14,6 @@
               <div class="circle"></div>
             </div>
           </button>
-
-
 
 
           <div style="display: flex;align-items: center;margin-left: 40%">
@@ -51,7 +47,7 @@
 </div>
         </el-header>
 
-        <el-main style="border: 3px solid white;background-color: rgba(0,0,0,0.2);">
+        <el-main style="border: 3px solid white;background-color: rgba(255,255,255,1);">
 
           <router-view></router-view>
 
@@ -65,8 +61,6 @@
 
 <script>
 
-import GLOBE from 'vanta/src/vanta.globe'
-import * as THREE from "three";
 export default {
   name: "ArticleHome",
   data(){
@@ -106,30 +100,6 @@ export default {
       })
     }
   },
-  mounted() {
-    this.vantaEffect = GLOBE({
-      el: this.$refs.vantaRef,
-      THREE: THREE
-    }), VANTA.GLOBE({
-      el: this.$refs.vantaRef,
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      color: 0x5e66de,
-      color2: 0x6e1a1a,
-      size: 1.30,
-      backgroundColor: 0xc0c0f7
-    });
-  },
-  beforeDestroy() {
-    if (this.vantaEffect) {
-      this.vantaEffect.destroy()
-    }
-  },
 }
 
 
@@ -139,6 +109,7 @@ export default {
 
 
 .bg{
+  background-image: url("../../assets/adminHome.jpg");
   background-size:100% 100%;
   background-repeat: no-repeat;
   position: absolute;

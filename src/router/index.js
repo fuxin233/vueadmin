@@ -28,6 +28,10 @@ import UserArticle from "../views/external/UserArticle";
 import ArticleDetail from "../views/external/ArticleDetail";
 import UserCenter from "../views/external/UserCenter";
 import Assembling from "../views/external/Assembling";
+import AdminLogin from "../views/sys/AdminLogin";
+import Login from "../views/Login";
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -213,15 +217,22 @@ const routes = [
     ]
   },
   {
-    path: '/AdminLogin',
-    name: 'AdminLogin',
+    path: '/Login',
+    name: 'Login',
+    component: Login,
+    children:[
+      {
+        path: '/AdminLogin',
+        name: 'AdminLogin',
 
-    component: () => import( '../views/sys/AdminLogin')
-  },
-  {
-    path: '/UserLogin',
-    name: 'UserLogin',
-    component : UserLogin
+        component: AdminLogin
+      },
+      {
+        path: '/UserLogin',
+        name: 'UserLogin',
+        component : UserLogin
+      },
+    ]
   },
   {
     path: '/Assembling',

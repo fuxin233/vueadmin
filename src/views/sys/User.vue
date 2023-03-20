@@ -193,7 +193,7 @@
 
         <el-form-item label="邮箱验证码"  label-width="100px">
         <el-input placeholder="请输入邮箱验证码" v-model="code"  style="width: 148px; margin-right:8px;float: left" maxlength=""></el-input>
-        <el-button v-show="editForm.email != ''" type="primary" @click="sendEmail(editForm.email)" :disabled="disable">{{buttonName}}</el-button>
+        <el-button v-show="editForm.email" type="primary" @click="sendEmail(editForm.email)" :disabled="disable">{{buttonName}}</el-button>
         </el-form-item>
 
 

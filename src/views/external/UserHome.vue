@@ -1,5 +1,5 @@
 <template>
-  <div class="bg" ref="vantaRef">
+  <div class="bg" ref="UserBg">
     <el-container>
 
 
@@ -154,6 +154,21 @@ import EchartsComponent01 from "../inc/EchartsComponent01";
 import EchartsComponent02 from "../inc/EchartsComponent02";
 export default {
   name: "UserHome",
+  watch: {
+    //有bug获取不到表头名
+    // 解决刷新浏览器没有tab的问题
+    $route(to, from) {
+      console.log("to")
+      console.log(to)
+      if (to.path != '/AdminLogin') {
+        let obj = {
+          name: to.name,
+          title: to.meta.title
+        }
+        this.$store.commit("addTabs", obj)
+      }
+    }
+  },
   components: {
     EchartsComponent01,
     EchartsComponent02
@@ -200,10 +215,10 @@ export default {
   },
   mounted() {
     this.vantaEffect = HALO({
-      el: this.$refs.vantaRef,
+      el: this.$refs.UserBg,
       THREE: THREE
     }), VANTA.HALO({
-      el: this.$refs.vantaRef,
+      el: this.$refs.UserBg,
       mouseControls: true,
       touchControls: true,
       gyroControls: false,

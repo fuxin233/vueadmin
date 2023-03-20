@@ -8,21 +8,7 @@
 
 export default {
   name: "App",
-  watch: {
-    //有bug获取不到表头名
-    // 解决刷新浏览器没有tab的问题
-    $route(to, from) {
-      console.log("to")
-      console.log(to)
-      if (to.path != '/AdminLogin') {
-        let obj = {
-          name: to.name,
-          title: to.meta.title
-        }
-        this.$store.commit("addTabs", obj)
-      }
-    }
-  }
+
 }
 </script>
 

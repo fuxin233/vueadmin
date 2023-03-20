@@ -1,5 +1,5 @@
 <template>
-  <div class="bg" ref="vantaRef">
+  <div class="bg">
   <el-container>
     <el-aside width="200px">
       <AdminMenu></AdminMenu>
@@ -46,13 +46,41 @@
 
 import AdminMenu from "../inc/AdminMenu";
 import Tabs from "../inc/Tabs";
-import Clouds from 'vanta/src/vanta.clouds'
-import * as THREE from "three";
 export default {
   name: "AdminHome",
   components: {
     AdminMenu,
     Tabs
+  },
+  watch: {
+    //有bug获取不到表头名
+    // 解决刷新浏览器没有tab的问题
+    $route(to, from) {
+      console.log("to")
+      console.log(to)
+      if (to.path != '/AdminLogin'
+          && to.path != '/ArticleDetail'
+          && to.path != '/ArticleHome'
+          && to.path != '/Assembling'
+          && to.path != '/UserArticle'
+          && to.path != '/UserCenter'
+          && to.path != '/UserCpuMulti'
+          && to.path != '/UserCpuSingle'
+          && to.path != '/UserHarddisk'
+          && to.path != '/UserHome'
+          && to.path != '/UserLogin'
+          && to.path != '/UserMainboard'
+          && to.path != '/UserMemory'
+          && to.path != '/UserPccase'
+          && to.path != '/UserPower'
+          && to.path != '/Login') {
+        let obj = {
+          name: to.name,
+          title: to.meta.title
+        }
+        this.$store.commit("addTabs", obj)
+      }
+    }
   },
   data(){
     return{
@@ -83,38 +111,15 @@ export default {
         this.$router.push("/AdminLogin")
       })
     }
-  },
-  mounted() {
-    this.vantaEffect = Clouds({
-      el: this.$refs.vantaRef,
-      THREE: THREE
-    }), VANTA.CLOUDS({
-      el: this.$refs.vantaRef,
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      skyColor: 0x608098,
-      speed: 1.00
-    })
-  },
-  beforeDestroy() {
-    if (this.vantaEffect) {
-      this.vantaEffect.destroy()
-    }
-  },
-
-
+  }
 }
-
 
 </script>
 
 <style scoped>
 
 .bg{
-  /*background-image: url("../assets/loginBackground.png");*/
+  background-image: url("../../assets/adminHome.jpg");
   background-size:100% 100%;
   background-repeat: no-repeat;
   position: absolute;

@@ -1,18 +1,17 @@
 <template>
 
-  <div class="bg" ref="vantaRef">
+<div class="bg">
 
-    <button type="button" class="back" @click="$router.push('/UserIndex')">
-      <strong>回 到 首 页</strong>
-      <div id="container-stars">
-        <div id="stars"></div>
-      </div>
-
-      <div id="glow">
-        <div class="circle"></div>
-        <div class="circle"></div>
-      </div>
-    </button>
+  <button type="button" class="back" @click="$router.push('/UserIndex')">
+    <strong>回 到 首 页</strong>
+    <div id="container-stars">
+      <div id="stars"></div>
+    </div>
+    <div id="glow">
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+  </button>
 
 
     <div class="container noselect">
@@ -61,7 +60,7 @@
         <div class="card">
           <div class="card2">
             <div class="form">
-              <p id="heading">登录</p>
+              <p id="heading">用户登录</p>
               <el-form-item  prop="username">
                 <div class="field">
                   <i class="el-icon-user-solid"></i>
@@ -136,13 +135,12 @@
         <el-button type="primary" @click="registerForm('editForm')">确 定</el-button>
       </div>
     </el-dialog>
-  </div>
+</div>
 
 </template>
 
 <script>
-import * as THREE from 'three'
-import RINGS from 'vanta/src/vanta.rings'
+
 export default {
   name: "UserLogin",
   data() {
@@ -281,30 +279,7 @@ export default {
     localStorage.clear()
     sessionStorage.clear()
     this.getCaptcha()
-  },
-  mounted() {
-    this.vantaEffect = RINGS({
-      el: this.$refs.vantaRef,
-      THREE: THREE
-    }),
-        VANTA.RINGS({
-          el: this.$refs.vantaRef,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          backgroundAlpha: 0.75
-        })
-
-  },
-  beforeDestroy() {
-    if (this.vantaEffect) {
-      this.vantaEffect.destroy()
-    }
-  },
+  }
 }
 </script>
 
@@ -845,9 +820,10 @@ export default {
 
 
 
+
 .back {
-  top: 3%;
-  left: 1%;
+  margin-top: 20px;
+  margin-left: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
