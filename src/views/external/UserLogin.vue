@@ -1,17 +1,17 @@
 <template>
 
-<div class="bg">
+  <div class="bg">
 
-  <button type="button" class="back" @click="$router.push('/UserIndex')">
-    <strong>回 到 首 页</strong>
-    <div id="container-stars">
-      <div id="stars"></div>
-    </div>
-    <div id="glow">
-      <div class="circle"></div>
-      <div class="circle"></div>
-    </div>
-  </button>
+    <button type="button" class="back" @click="$router.push('/UserIndex')">
+      <strong>回 到 首 页</strong>
+      <div id="container-stars">
+        <div id="stars"></div>
+      </div>
+      <div id="glow">
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+    </button>
 
 
     <div class="container noselect">
@@ -86,7 +86,7 @@
                 <el-button @click="dialogVisible = true" class="button" :plain="true" type="info">注册</el-button>
               </div>
               <div>
-                <el-link type="primary" @click="$router.push('/AdminLogin')">管理员登录</el-link>
+                <el-link type="primary" @click="passwordFormVisible = true">忘记密码？</el-link>
               </div>
             </div>
           </div>
@@ -135,7 +135,47 @@
         <el-button type="primary" @click="registerForm('editForm')">确 定</el-button>
       </div>
     </el-dialog>
-</div>
+
+
+    <!--重置密码对话框-->
+    <el-dialog
+        title="忘记密码？"
+        :visible.sync="passwordFormVisible"
+        width="600px"
+        :append-to-body="true"
+        :before-close="handleClose">
+      <el-form :model="editForm" :rules="editFormRules" ref="editForm">
+        <el-form-item label="用户名" prop="name" label-width="100px">
+          <el-input placeholder="请输入用户名" v-model="editForm.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码" prop="password" label-width="100px">
+          <el-input placeholder="新密码" v-model="editForm.password" autocomplete="off" show-password clearable></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="checkPass" label-width="100px">
+          <el-input placeholder="再次输入密码" v-model="editForm.checkPass" autocomplete="off" show-password clearable></el-input>
+        </el-form-item>
+
+        <el-form-item label="邮箱"  prop="email" label-width="100px">
+          <el-input placeholder="请输入邮箱" v-model="editForm.email" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="邮箱验证码"  label-width="100px">
+          <el-input placeholder="请输入邮箱验证码" v-model="code"  style="width: 148px; margin-right:8px;float: left" maxlength=""></el-input>
+          <el-button v-show="editForm.email != ''" type="primary" @click="sendEmail(editForm.email)" :disabled="disable">{{buttonName}}</el-button>
+        </el-form-item>
+
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('editForm')">取 消</el-button>
+        <el-button type="primary" @click="forgetPasswordForm('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
+  </div>
 
 </template>
 
@@ -154,6 +194,7 @@ export default {
       code:'',
       key:'',
       dialogVisible: false,
+      passwordFormVisible:false,
       editForm:{},
       editFormRules: {
         name:[
@@ -239,14 +280,37 @@ export default {
         }
       });
     },
+    forgetPasswordForm(formName){
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios.post('/user/forgetPassword/'+this.key+'/'+this.code, this.editForm)
+              .then(res => {
+                this.$message({
+                  showClose: true,
+                  message: '重置密码成功!',
+                  type: 'success',
+                });
+                this.resetForm(formName)
+                this.passwordFormVisible = false
+              })
+        } else {
+          console.log('error submit!!');
+          this.passwordFormVisible = true
+          return false;
+        }
+      });
+    },
+
     handleClose() {
-      console.log(this.editForm.roleIds)
       this.resetForm('editForm')
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.code = ''
       this.dialogVisible = false
+      this.passwordFormVisible = false
       this.getCaptcha();
+      this.count = 0
     },
     //获取验证码
     getCaptcha(){

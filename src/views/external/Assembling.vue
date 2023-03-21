@@ -1,59 +1,61 @@
 <template>
   <div class="bg">
-      <el-header>
-        <button type="button" class="back" @click="$router.push('/UserIndex')">
-          <strong>回 到 首 页</strong>
-          <div id="container-stars">
-            <div id="stars"></div>
-          </div>
-
-          <div id="glow">
-            <div class="circle"></div>
-            <div class="circle"></div>
-          </div>
-        </button>
-        <div style="display: flex;align-items: center;margin-left: 40%">
-          <div class="group">
-            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
-            <input placeholder="查找相关新闻" type="search" class="input" v-model="title">
-          </div>
-          <button class="shadow__btn" @click="linkToArticle()">
-            搜索
-          </button>
+    <el-header style="background-color: #2c3e50">
+      <button type="button" class="back" @click="$router.push('/UserIndex')">
+        <strong>回 到 首 页</strong>
+        <div id="container-stars">
+          <div id="stars"></div>
         </div>
 
-        <div style="right: 0;display: flex;margin-right: 30px;position:absolute;align-items: center">
-          <el-avatar size="medium" :src= this.userInfo.avatar style="display: flex;">
-          </el-avatar>
-          <el-dropdown :hide-on-click="false">
+        <div id="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+      <div style="display: flex;align-items: center;margin-left: 40%">
+        <div class="group">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+          <input placeholder="查找相关新闻" type="search" class="input" v-model="title">
+        </div>
+        <button class="shadow__btn" @click="linkToArticle()">
+          搜索
+        </button>
+      </div>
+
+      <div style="right: 0;display: flex;margin-right: 30px;position:absolute;align-items: center">
+        <el-avatar size="medium" :src= this.userInfo.avatar style="display: flex;">
+        </el-avatar>
+        <el-dropdown :hide-on-click="false">
           <span class="el-dropdown-link" style="color: white;margin-left: 10px;">
            您好，{{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <router-link :to="{name:'UserLogin'}" v-if="userInfo.id==0">登录</router-link>
-                <router-link :to="{name:'UserCenter'}" v-if="userInfo.id!=0">个人中心</router-link>
-              </el-dropdown-item>
-              <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <router-link :to="{name:'UserLogin'}" v-if="userInfo.id==0">登录</router-link>
+              <router-link :to="{name:'UserCenter'}" v-if="userInfo.id!=0">个人中心</router-link>
+            </el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
 
-            </el-dropdown-menu>
-          </el-dropdown>
-          <el-link href="https://www.baidu.com/" style="color: white;margin-left: 40px;">百度</el-link>
-          <el-link @click="$router.push('/AdminLogin')" style="color: white;margin-left: 40px;">管理员端</el-link>
-        </div>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <el-link href="https://www.baidu.com/" style="color: white;margin-left: 40px;">百度</el-link>
+        <el-link @click="$router.push('/AdminLogin')" style="color: white;margin-left: 40px;">管理员端</el-link>
+      </div>
 
-      </el-header>
+    </el-header>
 
-<!--    <div class="scene"  @click="dialogFormVisible = true">-->
+    <div class="scene"  @click="dialogFormVisible = true">
 
-<!--      <div class="cube">-->
-<!--        <span class="side top">开始装机！</span>-->
-<!--        <span class="side front">点击这里！</span>-->
-<!--      </div>-->
-<!--    </div>-->
+      <div class="cube">
+        <span class="side top">开始装机！</span>
+        <span class="side front">点击这里！</span>
+      </div>
+    </div>
     <el-button type="primary" round @click="start">开始</el-button>
     <el-button type="primary" round @click="end">结束</el-button>
     <el-button type="info" round @click="repeat">复播</el-button>
+    <el-button type="info" round @click="installGlass">组装玻璃</el-button>
+    <el-button type="info" round @click="moveGlass">移除玻璃</el-button>
     <el-dialog title="选择你的配置"
                :visible.sync="dialogFormVisible"
                :before-close="handleClose"
@@ -529,10 +531,6 @@ export default {
         obj.material.transparent = true
         console.log(obj)
         obj.material.opacity = 1
-        if (obj == this.glassObj)
-        {
-          obj.material.opacity = 0.4
-        }
         tween.play()
       },time)
       return timer
@@ -589,7 +587,7 @@ export default {
       this.tween33 = this.animation(this.guantou2Obj)
 
       this.tween34 = this.animation(this.houkObj)
-      this.tween35 = this.animation(this.glassObj)
+
 
       this.tween36 = this.animation(this.tiepianObj1)
       this.tween37 = this.animation(this.tiepianObj2)
@@ -646,8 +644,15 @@ export default {
 
       this.timeOut36 =this.show(this.houkObj,this.tween34,0)
 
-      this.timeOut37 =this.show(this.glassObj,this.tween35,12500)
 
+
+    },
+    installGlass(){
+      this.tween35 = this.animation(this.glassObj)
+      this.timeOut37 =this.show(this.glassObj,this.tween35,0)
+    },
+    moveGlass(){
+      this.hide(this.glassObj)
     },
     end(){
       clearTimeout(this.timeOut1)
@@ -687,44 +692,6 @@ export default {
       clearTimeout(this.timeOut35)
       clearTimeout(this.timeOut36)
       clearTimeout(this.timeOut37)
-
-      // this.tween1.pause()
-      // this.tween2.pause()
-      // this.tween3.pause()
-      // this.tween4.pause()
-      // this.tween5.pause()
-      // this.tween6.pause()
-      // this.tween7.pause()
-      // this.tween8.pause()
-      // this.tween9.pause()
-      // this.tween10.pause()
-      // this.tween11.pause()
-      // this.tween12.pause()
-      // this.tween13.pause()
-      // this.tween14.pause()
-      // this.tween15.pause()
-      // this.tween16.pause()
-      // this.tween17.pause()
-      // this.tween18.pause()
-      // this.tween19.pause()
-      // this.tween20.pause()
-      // this.tween21.pause()
-      // this.tween22.pause()
-      // this.tween23.pause()
-      // this.tween24.pause()
-      // this.tween25.pause()
-      // this.tween26.pause()
-      // this.tween27.pause()
-      // this.tween28.pause()
-      // this.tween29.pause()
-      // this.tween30.pause()
-      // this.tween31.pause()
-      // this.tween32.pause()
-      // this.tween33.pause()
-      // this.tween34.pause()
-      // this.tween35.pause()
-      // this.tween36.pause()
-      // this.tween37.pause()
     },
     repeat(){
       this.hide(this.houbanObj)
@@ -1069,7 +1036,7 @@ export default {
 .el-header {
   display: flex;
   line-height: 50px;
-  width: 1400px;
+  width: 100%;
 }
 
 a{
