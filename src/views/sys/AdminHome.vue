@@ -59,6 +59,8 @@ export default {
       console.log("to")
       console.log(to)
       if (to.path != '/AdminLogin'
+          && to.path != '/UserIndex'
+          && to.path != '/ComputerLst'
           && to.path != '/ArticleDetail'
           && to.path != '/ArticleHome'
           && to.path != '/Assembling'

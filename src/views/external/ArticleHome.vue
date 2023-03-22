@@ -47,7 +47,7 @@
 </div>
         </el-header>
 
-        <el-main style="border: 3px solid white;background-color: rgba(255,255,255,1);">
+        <el-main style="border: 3px solid white;background-color: rgba(255,255,255,0.4);">
 
           <router-view></router-view>
 

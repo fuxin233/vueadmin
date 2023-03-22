@@ -403,15 +403,15 @@ export default {
     }
   },
   created() {
-    // this.getUserInfo()
-    // this.getGpuList()
-    // this.getCpuList()
-    // this.getMainBoardList()
-    // this.getPccaseList()
-    // this.getMemoryList()
-    // this.getMecList()
-    // this.getSsdList()
-    // this.getPowerList()
+    this.getUserInfo()
+    this.getGpuList()
+    this.getCpuList()
+    this.getMainBoardList()
+    this.getPccaseList()
+    this.getMemoryList()
+    this.getMecList()
+    this.getSsdList()
+    this.getPowerList()
   },
   methods:{
     linkToArticle(){
