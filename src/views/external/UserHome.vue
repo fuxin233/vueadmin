@@ -140,6 +140,19 @@
         </div>
       </button>
 
+
+      <button type="button" class="btn" @click="$router.push('/UserComputerList')">
+        <strong><i class="el-icon-odometer"></i>配置单列表</strong>
+        <div class="container-stars">
+          <div class="stars"></div>
+        </div>
+        <div class="glow">
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+      </button>
+
+
     </div>
   </div>
 
@@ -391,7 +404,7 @@ a{
   background-image: linear-gradient(#212121, #212121),  linear-gradient(137.48deg, #ffdb3b 10%,#FE53BB 45%, #8F51EA 67%, #0044ff 87%);
   background-origin: border-box;
   background-clip: content-box, border-box;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .container-stars {

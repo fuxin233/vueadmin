@@ -305,12 +305,15 @@ export default {
       this.resetForm('editForm')
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.code = ''
-      this.dialogVisible = false
-      this.passwordFormVisible = false
-      this.getCaptcha();
-      this.count = 0
+      this.$nextTick(()=>{
+        this.$refs[formName].resetFields();
+        this.editForm={}
+        this.code = ''
+        this.dialogVisible = false
+        this.passwordFormVisible = false
+        this.getCaptcha();
+        this.count = 0
+      })
     },
     //获取验证码
     getCaptcha(){

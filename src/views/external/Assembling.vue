@@ -31,8 +31,8 @@
            </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <router-link :to="{name:'UserLogin'}" v-if="userInfo.id==0">登录</router-link>
-              <router-link :to="{name:'UserCenter'}" v-if="userInfo.id!=0">个人中心</router-link>
+              <router-link :to="{name:'UserLogin'}" v-if="userInfo.id==null">登录</router-link>
+              <router-link :to="{name:'UserCenter'}" v-if="userInfo.id!=null">个人中心</router-link>
             </el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
 
@@ -43,19 +43,14 @@
       </div>
 
     </el-header>
-
-    <div class="scene"  @click="dialogFormVisible = true">
-
-      <div class="cube">
-        <span class="side top">开始装机！</span>
-        <span class="side front">点击这里！</span>
-      </div>
+    <div style="position: absolute;left: 50%;transform: translate(-44%,0);margin-top: 20px">
+      <el-button type="primary" round @click="dialogFormVisible = true">开始装机</el-button>
+      <el-button type="success" round @click="end" :disabled="buttonDisabled">暂停</el-button>
+      <el-button type="success" round @click="repeat" :disabled="buttonDisabled">重播</el-button>
+      <el-button type="success" round @click="installGlass" :disabled="buttonDisabled">组装玻璃</el-button>
+      <el-button type="success" round @click="moveGlass" :disabled="buttonDisabled">移除玻璃</el-button>
     </div>
-    <el-button type="primary" round @click="start">开始</el-button>
-    <el-button type="primary" round @click="end">结束</el-button>
-    <el-button type="info" round @click="repeat">复播</el-button>
-    <el-button type="info" round @click="installGlass">组装玻璃</el-button>
-    <el-button type="info" round @click="moveGlass">移除玻璃</el-button>
+
     <el-dialog title="选择你的配置"
                :visible.sync="dialogFormVisible"
                :before-close="handleClose"
@@ -233,6 +228,7 @@ export default {
         avatar:""
       },
       title:'',
+      buttonDisabled:true,
       computerList:{
         gpuName: '',
         cpuName: '',
@@ -256,8 +252,6 @@ export default {
       ssdList:[],
       powerList:[],
       dialogFormVisible: false,
-
-
 
 
       screen: null,
@@ -403,15 +397,15 @@ export default {
     }
   },
   created() {
-    // this.getUserInfo()
-    // this.getGpuList()
-    // this.getCpuList()
-    // this.getMainBoardList()
-    // this.getPccaseList()
-    // this.getMemoryList()
-    // this.getMecList()
-    // this.getSsdList()
-    // this.getPowerList()
+    this.getUserInfo()
+    this.getGpuList()
+    this.getCpuList()
+    this.getMainBoardList()
+    this.getPccaseList()
+    this.getMemoryList()
+    this.getMecList()
+    this.getSsdList()
+    this.getPowerList()
   },
   methods:{
     linkToArticle(){
@@ -506,6 +500,8 @@ export default {
                 });
                 this.resetForm()
                 this.dialogFormVisible = false
+                this.start()
+                this.buttonDisabled = false
               })
         } else {
           console.log('error submit!!');
@@ -751,7 +747,17 @@ export default {
 
     init() {
       this.screen = new THREE.Scene();
-      this.screen.background = new THREE.Color(0xffffff);
+      // this.screen.background = new THREE.Color(1, 0.5 ,1);
+      this.screen.background = new THREE.CubeTextureLoader().load(
+          [
+              "skybox/nanji_L.jpg",
+              "skybox/nanji_R.jpg",
+              "skybox/nanji_U.jpg",
+              "skybox/nanji_D.jpg",
+              "skybox/nanji_F.jpg",
+              "skybox/nanji_B.jpg",
+          ]
+      );
       this.camera = new THREE.PerspectiveCamera(
           75,
           window.innerWidth / window.innerHeight,
@@ -770,8 +776,8 @@ export default {
       bgDom.appendChild(this.renderer.domElement);
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
-      this.axesHelper = new THREE.AxesHelper(5);
-      this.screen.add(this.axesHelper);
+      // this.axesHelper = new THREE.AxesHelper(5);
+      // this.screen.add(this.axesHelper);
       this.light = new THREE.AmbientLight(0x404040, 2);
       this.screen.add(this.light);
 
@@ -837,7 +843,7 @@ export default {
       const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
       floorMesh.receiveShadow = true;
       floorMesh.rotation.x = - Math.PI / 2.0;
-      this.screen.add( floorMesh );
+      // this.screen.add( floorMesh );
 
 
 
@@ -1009,7 +1015,6 @@ export default {
 
 
 .bg{
-  background-size:100% 100%;
   background-repeat: no-repeat;
   position: absolute;
   padding: 0px;
@@ -1017,6 +1022,9 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
+  overflow: clip;
+  /* 隐藏body窗口区域滚动条 */
+  background-size: cover;
 }
 
 
@@ -1294,52 +1302,6 @@ strong {
   align-content: flex-start;
   align-items:center;
 
-}
-.scene {
-  position: absolute;
-  margin-top: 10px;
-  margin-left: 40%;
-}
-
-.cube {
-  color: #ccc;
-  cursor: pointer;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.85s cubic-bezier(.17,.67,.14,.93);
-  transform-style: preserve-3d;
-  transform-origin: 100% 50%;
-  width: 10em;
-  height: 4em;
-}
-
-.cube:hover {
-  transform: rotateX(-90deg);
-}
-
-.side {
-  box-sizing: border-box;
-  position: absolute;
-  display: inline-block;
-  height: 4em;
-  width: 200px;
-  text-align: center;
-  text-transform: uppercase;
-  padding-top: 1.5em;
-  font-weight: bold;
-}
-
-.top {
-  background: wheat;
-  color: #222229;
-  transform: rotateX(90deg) translate3d(0, 0, 2em);
-  box-shadow: inset 0 0 0 5px #fff;
-}
-
-.front {
-  background: #222229;
-  color: #fff;
-  box-shadow: inset 0 0 0 5px #fff;
-  transform: translate3d(0, 0, 2em);
 }
 
 </style>

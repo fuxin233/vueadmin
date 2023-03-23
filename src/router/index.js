@@ -28,8 +28,10 @@ import UserArticle from "../views/external/UserArticle";
 import ArticleDetail from "../views/external/ArticleDetail";
 import UserCenter from "../views/external/UserCenter";
 import Assembling from "../views/external/Assembling";
+import UserComputerList from "../views/external/UserComputerList";
 import AdminLogin from "../views/sys/AdminLogin";
 import Login from "../views/Login";
+
 
 
 Vue.use(VueRouter)
@@ -189,6 +191,11 @@ const routes = [
         path: '/UserPower',
         name: 'UserPower',
         component: UserPower
+      },
+      {
+        path: '/UserComputerList',
+        name: 'UserComputerList',
+        component: UserComputerList
       },
 
     ]

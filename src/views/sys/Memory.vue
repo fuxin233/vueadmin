@@ -528,7 +528,7 @@ export default {
 
 
     editHandle(id) {
-      this.$axios.get('/mainboard-detail/getById/' + id).then(res => {
+      this.$axios.get('/memory-detail/getById/' + id).then(res => {
         this.editForm = res.data.data
         this.updateVisible = true
       })

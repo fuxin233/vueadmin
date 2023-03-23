@@ -34,7 +34,7 @@
         热度:&nbsp;&nbsp;{{item.cpuHot}}<br/>
         <div class="left" slot="reference" >
           <div class="inner" v-if="item.cpuType=='Intel'">
-            <div class="innerleft"  :style="{width:item.cpuSingleIndex + '%'}">{{item.cpuName}}</div>
+            <div class="innerleft"  :style="{width:item.cpuSingleIndex/138.3*100 + '%'}">{{item.cpuName}}</div>
           </div>
         </div>
       </el-popover>
@@ -58,7 +58,7 @@
         热度:&nbsp;&nbsp;{{item.cpuHot}}<br/>
         <div class="right" slot="reference" v-if="item.cpuType=='Ryzen'" >
           <div class="innerR" >
-            <div class="innerright"  :style="{width:item.cpuSingleIndex + '%'}">{{item.cpuName}}</div>
+            <div class="innerright"  :style="{width:item.cpuSingleIndex/138.3*100 + '%'}">{{item.cpuName}}</div>
           </div>
         </div>
       </el-popover>
