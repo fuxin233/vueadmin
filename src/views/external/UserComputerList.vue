@@ -31,8 +31,12 @@
         装机时间：{{ item.created}}<br/>
         娱乐评分：{{ item.gameIndex}}<br/>
         办公评分：{{ item.workIndex}}<br/>
+<<<<<<< HEAD
         热度：{{ item.likes }}
         <el-button  icon="el-icon-star-off" circle @click="likeComputerList(item.id)" style="float: right;margin-right: 3%;"></el-button>
+=======
+        热度：{{ item.likes }}<br/>
+>>>>>>> origin/master
         <div class="left" slot="reference" >
           <div class="inner">
             <div class="innerleft"  :style="{width:item.gameIndex + '%'}">第{{index+1}}名&nbsp;&nbsp;&nbsp;</div>
@@ -56,8 +60,12 @@
         装机时间：{{ item.created}}<br/>
         娱乐评分：{{ item.gameIndex}}<br/>
         办公评分：{{ item.workIndex}}<br/>
+<<<<<<< HEAD
         热度：{{ item.likes }}
         <el-button  icon="el-icon-star-off" circle @click="likeComputerList(item.id)" style="float: right;margin-right: 3%;"></el-button>
+=======
+        热度：{{ item.likes }}<br/>
+>>>>>>> origin/master
         <div class="right" slot="reference" >
           <div class="innerR" >
             <div class="innerright"  :style="{width:item.workIndex + '%'}">用户：{{item.userName}}</div>
@@ -112,11 +120,14 @@ export default {
         this.tableData = res.data.data
       })
     },
+<<<<<<< HEAD
     likeComputerList(id){
       this.$axios.get("/computer-list/like/"+id).then(res => {
         this.getListByGameIndex()
       })
     },
+=======
+>>>>>>> origin/master
     inside(){
       this.insides = true
     },

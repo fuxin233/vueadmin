@@ -1,50 +1,42 @@
 <template>
-  <div style="width: 100%;">
-    <div style="font-size: 25px;"><strong>{{tableData.title}}</strong></div>
-    <div>By - {{tableData.userName}}</div>
-    <div>{{tableData.created}}</div>
-    <div class="ql-container ql-snow" style="height:70%;">
-      <div class="ql-editor" v-html="tableData.content"></div>
+<div style="width: 100%">
+  <div style="font-size: 25px;"><strong>{{tableData.title}}</strong></div>
+  <div>By - {{tableData.userName}}</div>
+  <div>{{tableData.created}}</div>
+  <div class="ql-container ql-snow" style="height:70%;">
+    <div class="ql-editor" v-html="tableData.content" ></div>
+  </div>
+
+  <div style="height: 110px;overflow :auto;">
+    <div>
+    <el-input
+        type="textarea"
+        :rows="2"
+        placeholder="我也要评论"
+        v-model="comment.comment"
+        style="width: 80%;margin-top: 5px;"
+    >
+    </el-input>
     </div>
+    <div style="float: right;margin-top: 5px;margin-right: 10%">
+    <el-button type="primary" @click="submitComment" >确 定</el-button>
+  </div>
+  </div>
+  <div class="comments">
 
+    <hr>
+    <div v-for="item in comments">
+      <span class="name"><i class="el-icon-s-custom"></i>{{item.userName}}</span>
+      <span class="comment"><i class="el-icon-s-comment"></i> {{item.comment}}</span>
+      <span class="date"><i class="el-icon-date"></i>评论时间：{{item.created}}</span>
 
-    <div class="comments">
-      <div style="overflow :auto;margin-bottom: 20px">
-        <div>
-          <el-input
-              type="textarea"
-              :rows="2"
-              placeholder="我也要评论"
-              v-model="comment.comment"
-              autosize
-              style="width: 80%;margin-top: 10px;"
-          >
-          </el-input>
-        </div>
-        <div style="float: right;margin-top: 5px;margin-right: 10%">
-          <el-button type="primary" @click="submitComment" >确 定</el-button>
-        </div>
+      <div @click="likeComment(item.id)" class="like">
+        <i class="el-icon-star-on" style="color: red;"></i>{{item.likes}}
       </div>
-
-
-
-      <div v-for="item in comments" class="content">
-        <el-avatar :size="100" :src= item.userAvatar style="float: left;margin-left: 7%;margin-top: 40px"></el-avatar>
-        <div style="margin-top: 50px">
-          <div class="name"><i class="el-icon-s-custom" style="margin-left: 0.5%"></i>{{item.userName}}</div>
-          <div class="date"><i class="el-icon-date"></i>评论时间：{{item.created}}</div>
-          <div class="commentText">
-            <i class="el-icon-s-comment"></i> {{item.comment}}
-          </div>
-          <div>
-            <el-button @click="likeComment(item.id)" class="like">
-              <i class="el-icon-star-on" style="color: red;"></i>{{item.likes}}
-            </el-button>
-          </div>
-        </div>
-      </div>
+      <hr>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -120,55 +112,45 @@ export default {
 <style scoped>
 
 .comments{
+  height: 200px;
   margin-top: 2px;
-  width: 100%;
-  border: 2px dashed #4bc0c8;
-  border-radius: 10px;
-  background-color: beige;
-}
-.content{
-  border-top: 1px solid #ccc;
-  overflow: hidden;
-}
-.content::after {
-  content: "";
-  display: block;
-  clear: both;
+  overflow :auto;
+
 }
 .like{
-  float: right; /* 将 button 元素向右浮动 */
-  display: block; /* 将 button 元素设置为块级元素 */
-  margin-top: 10px;
-  margin-right: 30px;
-  margin-bottom: 20px;
-  font-size: 18px;
+  display: inline-block;
+  padding-left: 20px ;
+  align-items: center;
 }
 .name{
-  height: 36px;
-  margin-top: 5px;
+  display:-moz-inline-box;
+  display:inline-block;
+  width:50px;
+  margin-left: 50px;
+  overflow :hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
-  font-size: 30px;
-  font-weight: bolder;
 }
-.commentText{
-  margin-left: 12.8%;
-  margin-top: 10px;
-  word-wrap: break-word;
+.comment{
+  display:-moz-inline-box;
+  display:inline-block;
+  width:500px;
+  margin-left: 50px;
+  overflow :hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: left;
-  font-size: 20px;
-  width:80%;
-
 }
 .date{
-  margin-left: 13%;
+  display:-moz-inline-box;
+  display:inline-block;
   width:300px;
+  margin-left: 50px;
   overflow :hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
   right: 0;
-  font-size: 10px;
 }
 </style>
